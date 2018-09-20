@@ -27,24 +27,24 @@ Story:	As an unregistered user, I want to register using my personal information
 7.      Application should make sure the user has entered the correct email by asking for it to be 
         input again for verification
 Story:	As a registering user, I want the program to double check my email entry, so my account 
-	isn’t created with the wrong email, so my vote is mine and no one else’s.
+	isnâ€™t created with the wrong email, so my vote is mine and no one elseâ€™s.
 
 8.      Passwords should have requirements. E.g. At least eight characters, at least one uppercase 
         letter, at least one number, at least one special character, etc.
 Story:	As an unregistered user, I want the website to only allow strong passwords, so hackers 
-	can’t access voting records easily.
+	canâ€™t access voting records easily.
 
 9.      Two factor authentication should send an email to user's email upon login
 Story:	As a registered user, I want two-factor authentication, so I can log in securely in case someone steals my password information.
 
 10.     User should be able to select from available races and vote from available candidates
-Story:	As a registered user, I want to be able to select the race I’m voting in, so I can vote in the 
+Story:	As a registered user, I want to be able to select the race Iâ€™m voting in, so I can vote in the 
 	correct elections.
 Story:	As a registered user, I want to be able to pick from a list of available candidates within a 
 	given race, so I can see who all is running and vote for my candidate.
 
 11.     User should be able to vote for only one candidate from a selected race
-Story:	As a registered user, I want to be able to vote one candidate, so people’s votes aren’t 
+Story:	As a registered user, I want to be able to vote one candidate, so peopleâ€™s votes arenâ€™t 
 	counted twice.
 
 12.     User should be able to confirm their choices before they submit the form or the votes are 
@@ -79,7 +79,7 @@ Story:  As a developer, I want the mobile application portion of this software t
     	Android Studio.
 
 19.     Passwords and other sensitive data (SSNs, Voter IDs, etc) should be stored and hashed with SHA-512
-Story:  As a developer, I want the users’ sensitive data to be stored securely using SHA-512 
+Story:  As a developer, I want the usersâ€™ sensitive data to be stored securely using SHA-512 
     	hashing, so their data is harder to steal or misuse.
 
 20.     The application should verify the email format from input
@@ -88,7 +88,7 @@ Story:  As a developer, I want the software to verify the format of the email ad
     	messages.
 
 21.     The application should have two-factor authentication for security
-Story:  As a developer, I want the software to implement two-factor authentication, so my users’ 
+Story:  As a developer, I want the software to implement two-factor authentication, so my usersâ€™ 
     	accounts can be more secure should their data be compromised.
 
 22.     The application should be easy to use and accessible for the users, requiring less than an 
@@ -100,3 +100,5 @@ Story:  As a developer, I want the software to be easy and accessible for users,
         quickly over a standard internet connection
 Story:  As a developer, I want the software to perform well with a high volume of users and 
     	quickly over a standard internet connection, so the users will be encouraged to vote with the application.
+# Feeback
+Very good work

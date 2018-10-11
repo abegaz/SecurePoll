@@ -1,0 +1,107 @@
+Backlog - User stories listed in order based on priority.
+
+1.	Written with JAVAFX as a web application
+Story:  As a developer, I want the web application portion of this software to be written in 
+    	JAVAFX.
+
+2.	User should be able to register their account
+Story:	As an unregistered user, I want to be able to create an account so I can vote without 
+	having to wait in line.
+
+3.	Login page should have the options of registering an account, or logging in with an existing
+account
+Story:	As a general user, I want to be able to login or register easily, so I can vote 
+	quicker.
+
+4.	The application should have two-factor authentication for security
+Story:  As a developer, I want the software to implement two-factor authentication, so my users’ 
+    	accounts can be more secure should their data be compromised.
+
+5.	Two factor authentication should send an email to user's email upon login
+Story:	As a registered user, I want two-factor authentication, so I can log in securely in case
+	someone steals my password infomation.
+
+6.	Passwords should have requirements. E.g. At least eight characters, at least one uppercase 
+        letter, at least one number, at least one special character, etc.
+Story:	As an unregistered user, I want the website to only allow strong passwords, so hackers 
+	can’t access voting records easily.
+
+7.	Passwords and other sensitive data (SSNs, Voter IDs, etc) should be stored and hashed with SHA-512
+Story:  As a developer, I want the users’ sensitive data to be stored securely using SHA-512 
+    	hashing, so their data is harder to steal or misuse.
+
+
+8.	Registration should require proper authentication. E.g. Correct voting age, Driver's License 
+        number, Voter ID number, last four digits of a SSN, etc.
+Story:	As an unregistered user, I want to register using my personal information, so the vote on 
+	a candidate is safe and free from false users.
+
+9.	The application should verify the email format from input
+Story:  As a developer, I want the software to verify the format of the email address the user is 
+    	inputting, so they may receive proper notifications and two-factor authentication 
+    	messages.
+
+
+10.	Application should make sure the user has entered the correct email by asking for it to be 
+        input again for verification
+Story:	As a registering user, I want the program to double check my email entry, so my account 
+	isn’t created with the wrong email, so my vote is mine and no one else’s.
+
+11.	Application should have an inactivity timeout for security purposes
+Story:	As a logged-in user, I want to be logged out after a short amount of inactivity, so my 
+	account is secure in case I forget to log out myself.
+
+12.	User should be able to edit their account
+Story:	As a registered user, I want to be able to edit my account so I can change passwords or 
+	Email addresses in case I forget or update my information.
+
+13.	User should be able to delete their account
+Story:	As a registered user, I want to be able to delete my account with this application and 
+	service, should I decide to stop using it to vote.
+
+14.	Admins should be able to add/remove races or candidates
+Story:	As an application administrator, I want to be able to add or delete races or candidates, so 
+	the voting is up to date and correct as well as encompassing all the races going on at a 
+	given moment.
+
+15.	User should be able to select from available races and vote from available candidates
+Story:	As a registered user, I want to be able to select the race I’m voting in, so I can vote in the 
+	correct elections.
+Story:	As a registered user, I want to be able to pick from a list of available candidates within a 
+	given race, so I can see who all is running and vote for my candidate.
+
+16.	User should be able to vote for only one candidate from a selected race
+Story:	As a registered user, I want to be able to vote one candidate, so people’s votes aren’t 
+	counted twice.
+
+17.	User should be able to confirm their choices before they submit the form or the votes are 
+        added to the total
+Story:	As a registered user, I want the system to give me a confirmation notice, so I can be 
+	absolutely sure I have selected who I want to vote for.
+
+18.	Application should be able to properly tally votes from users' inputs
+Story:	As a voter, I want my vote to be marked and tallied accurately, so my vote goes to my 
+	candidate and no one else.
+
+19.	Application will notify users when the race has concluded
+Story:	As a registered user, I want to have a notification when a race I have voted in has 
+	concluded, so I can see who won or that voting is ready to be tallied.
+
+20.	Application will display a graph of the total votes, and the percentages each candidate 
+        received in the race
+Story:	As a registered user, I want to see a graph of the total vote, so I can compare who won 
+	and by how much in an easy manner.
+
+21.	The application must perform well with a large volume of users as well as function 
+        quickly over a standard internet connection
+Story:  As a developer, I want the software to perform well with a high volume of users and 
+    	quickly over a standard internet connection, so the users will be encouraged to vote with the application
+
+22.	The application should be easy to use and accessible for the users, requiring less than an 
+        hour to learn a basic understanding of.
+Story:  As a developer, I want the software to be easy and accessible for users, so they will be 
+    	encouraged to use the software to vote.
+
+23.  	Written as an Android application
+Story:  As a developer, I want the mobile application portion of this software to be written using 
+    	Android Studio.

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="SecurePoll">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javax.mail.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

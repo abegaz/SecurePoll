@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="csci3300">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/SecurePoll/edu/ung/mccb/csci/csci3300/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/SecurePoll/edu/ung/mccb/csci/csci3300/activation.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

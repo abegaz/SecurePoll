@@ -1,0 +1,27 @@
+body {
+    background-color: darkslategrey;
+    color: azure;
+	font-family:Sentinel;
+
+}
+h2{
+	font-size:450%;
+}
+
+div{
+
+	color: #000000;
+	background-color: #f57c00;
+	text-align:center;
+	position:relative;
+
+}
+
+# centered_div {
+
+
+}
+
+table,td,th{
+text-align:center;
+}

@@ -3,16 +3,29 @@ $servername = "localhost";
 $username = "root";
 $password = "cromer678";
 $myDB = "securepoll";
+$emailRegEx = "/([a-Z]+|[1-9]+)+\@([a=Z]+|[1-9]+)+\.[a-Z]+/"
+$passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/"
 
-
+//Makes sure both email address fields match
 if($_POST['email'] != $_POST['verifyemail']){
 	$message = "Please make sure your email address is correct";
 	echo "<script type='text/javascript'>alert('$message');</script>";
 	header("location: register.php");
 }
 
+//Checks if email is in proper format
+if(!preg_match($emailRegEx, $_POST['email'])){
+	$message = "Please enter a valid password";
+	echo "<script type='text/javascript'>alert('$message');</script>";
+	header("location: register.php");
+}
 
-
+//Checks if password meets requirements
+if(!preg_match($passwordRegEx, $_POST['Password'])){
+	$message = "Password must be 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+	echo "<script type='text/javascript'>alert('$message');</script>";
+	header("location: register.php");
+}
 
 //this adds to database SANITIZE MORE!
 else

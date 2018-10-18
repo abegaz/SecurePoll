@@ -25,7 +25,20 @@ if(!preg_match($passwordRegEx, $_POST['Password'])){
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
-//this adds to database SANITIZE MORE!
+
+//Checks if ssn has 4 characters
+if(strlen($_POST['ssn'])!=4){
+	$message = "Please only include the last 4 digits of your Social Security Number";
+    echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
+	$valid = False;
+}
+
+//checks for valid date of birth
+if(strlen($_POST['DoB'])!=10){
+	$message = "Date of Birth not valid";
+    echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
+	$valid = False;
+}
 
 
 
@@ -33,7 +46,7 @@ if ($valid == False){
 	echo "<SCRIPT type='text/javascript'> window.location.replace(\"http://localhost/SecurePoll/register.php\");</SCRIPT>";
 }
 
-
+//this adds to database SANITIZE MORE!
 else
 {
 	

@@ -3,31 +3,37 @@ $servername = "localhost";
 $username = "root";
 $password = "cromer678";
 $myDB = "securepoll";
-$emailRegEx = "/([a-Z]+|[1-9]+)+\@([a=Z]+|[1-9]+)+\.[a-Z]+/"
-$passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/"
+$emailRegEx = "/([a-Z]+|[1-9]+)+\@([a=Z]+|[1-9]+)+\.[a-Z]+/";
+$passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/";
 
+$valid = True;
 //Makes sure both email address fields match
 if($_POST['email'] != $_POST['verifyemail']){
 	$message = "Please make sure your email address is correct";
-	echo "<script type='text/javascript'>alert('$message');</script>";
-	header("location: register.php");
+    echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
+	$valid = False;
 }
-
 //Checks if email is in proper format
 if(!preg_match($emailRegEx, $_POST['email'])){
 	$message = "Please enter a valid password";
-	echo "<script type='text/javascript'>alert('$message');</script>";
-	header("location: register.php");
+    echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
+	$valid = False;
 }
-
 //Checks if password meets requirements
 if(!preg_match($passwordRegEx, $_POST['Password'])){
-	$message = "Password must be 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-	echo "<script type='text/javascript'>alert('$message');</script>";
-	header("location: register.php");
+	$message = "Password must be 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+    echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
+	$valid = False;
+}
+//this adds to database SANITIZE MORE!
+
+
+
+if ($valid == False){
+	echo "<SCRIPT type='text/javascript'> window.location.replace(\"http://localhost/SecurePoll/register.php\");</SCRIPT>";
 }
 
-//this adds to database SANITIZE MORE!
+
 else
 {
 	
@@ -64,17 +70,13 @@ try {
 	$stmt->bindParam(':email', $email);
 	$stmt->bindParam(':Admin', $Admin);
 	$stmt->execute();
-
     echo "New records created successfully";
-
 	$stmt = null;
 	$conn = null;
-
 	
     
     }
 	
-
 catch(PDOException $e)
     {
     echo "Connection failed: " . $e->getMessage();
@@ -89,6 +91,37 @@ catch(PDOException $e)
 <meta charset="UTF8">
 <link rel="stylesheet" href="securePoll.css">
 </head>
+	<script>
+//timeout after 5 minutes
+attachEvent(window,'load',function(){
+  var idleSeconds =300;
+  var idleTimer;
+  function resetTimer(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
+  }
+  attachEvent(document.body,'mousemove',resetTimer);
+  attachEvent(document.body,'keydown',resetTimer);
+  attachEvent(document.body,'click',resetTimer);	
+
+  resetTimer(); // Start the timer when the page loads
+});
+
+function whenUserIdle(){
+
+alert("You have been idle for 5 minutes, returning to home page.");
+document.location.href = "http://localhost/SecurePoll/index.php";
+}
+
+function attachEvent(obj,evt,fnc,useCapture){
+  if (obj.addEventListener){
+    obj.addEventListener(evt,fnc,!!useCapture);
+    return true;
+  } else if (obj.attachEvent){
+    return obj.attachEvent("on"+evt,fnc);
+  }
+} 
+</script>
 <body>
 <div class="centered_div">
 <h2>You have successfully registered <?php echo $_POST["fName"]; ?></h2>

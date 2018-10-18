@@ -31,6 +31,37 @@ echo("
 	<meta charset=\"UTF8\">
 	<link rel=\"stylesheet\" href=\"securePoll.css\">
 	</head>
+	<script>
+//timeout after 5 minutes
+attachEvent(window,'load',function(){
+  var idleSeconds =300;
+  var idleTimer;
+  function resetTimer(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
+  }
+  attachEvent(document.body,'mousemove',resetTimer);
+  attachEvent(document.body,'keydown',resetTimer);
+  attachEvent(document.body,'click',resetTimer);	
+
+  resetTimer(); // Start the timer when the page loads
+});
+
+function whenUserIdle(){
+
+alert(\"You have been idle for 5 minutes, returning to home page.\");
+document.location.href = \"http://localhost/SecurePoll/index.php\";
+}
+
+function attachEvent(obj,evt,fnc,useCapture){
+  if (obj.addEventListener){
+    obj.addEventListener(evt,fnc,!!useCapture);
+    return true;
+  } else if (obj.attachEvent){
+    return obj.attachEvent(\"on\"+evt,fnc);
+  }
+} 
+</script>
 	<body>
 	<div class=\"centered_div\">
 	<h2>Welcome ");echo $_SESSION['state'];
@@ -178,6 +209,37 @@ echo("
 <script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>
 <link rel=\"stylesheet\" href=\"securePoll.css\">
 <script type=\"text/javascript\" src=\"script.js\"></script>
+<script>
+//timeout after 5 minutes
+attachEvent(window,'load',function(){
+  var idleSeconds =300;
+  var idleTimer;
+  function resetTimer(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
+  }
+  attachEvent(document.body,'mousemove',resetTimer);
+  attachEvent(document.body,'keydown',resetTimer);
+  attachEvent(document.body,'click',resetTimer);	
+
+  resetTimer(); // Start the timer when the page loads
+});
+
+function whenUserIdle(){
+
+alert(\"You have been idle for 5 minutes, returning to home page.\");
+document.location.href = \"http://localhost/SecurePoll/index.php\";
+}
+
+function attachEvent(obj,evt,fnc,useCapture){
+  if (obj.addEventListener){
+    obj.addEventListener(evt,fnc,!!useCapture);
+    return true;
+  } else if (obj.attachEvent){
+    return obj.attachEvent(\"on\"+evt,fnc);
+  }
+} 
+</script>
 </head>
 <body><p>Enter authentication code sent to your email</p>
 <form method=\"post\" action=\"authenticate.php\" id=\"verify\">

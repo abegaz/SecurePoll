@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/register"
+        tools:context=".Controller.RegisterActivityController"
+        tools:layout_editor_absoluteY="25dp">
+
+    <TextView
+            android:text=" Register a New Account"
+            android:layout_width="291dp"
+            android:layout_height="36dp"
+            android:id="@+id/regHeader"
+            android:textColor="#002054"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="76dp" android:layout_marginRight="76dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintVertical_bias="0.017"/>
+
+    <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.057" app:layout_constraintVertical_bias="0.876"/>
+    <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Email"
+            android:inputType="textWebEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintHorizontal_bias="0.057" app:layout_constraintVertical_bias="0.78"/>
+    <EditText
+            android:id="@+id/txtVoterID"
+            android:layout_width="227dp"
+            android:layout_height="43dp"
+            android:hint="Voter ID Number"
+            android:inputType="number" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.056" app:layout_constraintVertical_bias="0.548"/>
+    <EditText
+            android:id="@+id/txtSSN"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="SSN (Last Four Digits)"
+            android:inputType="number" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintHorizontal_bias="0.057" app:layout_constraintVertical_bias="0.643"/>
+    <EditText
+            android:id="@+id/txtDoB"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Date of Birth"
+            android:inputType="date" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintVertical_bias="0.287"/>
+    <EditText
+            android:id="@+id/txtState"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="State"
+            android:inputType="textAutoComplete"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.057" app:layout_constraintVertical_bias="0.382"/>
+    <EditText
+            android:id="@+id/txtLname"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Last Name"
+            android:inputType="text" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintVertical_bias="0.192"/>
+    <EditText
+            android:id="@+id/txtFname"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="First Name"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintVertical_bias="0.097"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.057"/>
+    <Button
+            android:text="Regiter"
+            android:layout_width="306dp"
+            android:layout_height="35dp"
+            android:id="@+id/regButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="#000000" android:onClick="touchRegister"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintVertical_bias="0.982"/>
+</android.support.constraint.ConstraintLayout>

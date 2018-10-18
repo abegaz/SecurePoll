@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Controller.LoginActivityController"
+>
+
+    <Button
+            android:text="Login"
+            android:layout_width="306dp"
+            android:layout_height="35dp"
+            android:id="@+id/logButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintVertical_bias="1.0" style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="#000000" android:onClick="touchLogin"/>
+    <EditText
+            android:id="@+id/txtPasswordLog"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Password"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.057"
+            android:inputType="textPassword" app:layout_constraintVertical_bias="0.371"/>
+    <EditText
+            android:id="@+id/txtEmailLog"
+            android:layout_width="228dp"
+            android:layout_height="43dp"
+            android:hint="Email"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.057"
+            android:inputType="textWebEmailAddress" app:layout_constraintVertical_bias="0.232"/>
+    <TextView
+            android:text="Login with an Existing Account"
+            android:layout_width="334dp"
+            android:layout_height="31dp"
+            android:id="@+id/loginHeader" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.235"
+            app:layout_constraintVertical_bias="0.017" android:textSize="24sp" android:textColor="#002054"/>
+</android.support.constraint.ConstraintLayout>

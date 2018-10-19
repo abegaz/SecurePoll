@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "346839933651",
+    "firebase_url": "https://polldatabase-52fc4.firebaseio.com",
+    "project_id": "polldatabase-52fc4",
+    "storage_bucket": "polldatabase-52fc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346839933651:android:a1035b38037c6225",
+        "android_client_info": {
+          "package_name": "griffinbean.example.com.securepollmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346839933651-vo33ksbtuchrl9fpubfpdmvbp9hq9675.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB_KSvNAwp0RIpYmAd39PCwWP0CrhMVj0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,31 +8,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import griffinbean.example.com.securepollmobile.R;
-
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Calendar;
+import java.util.Random;
 
-public class RegisterActivityController extends AppCompatActivity {
-    int i = 0;
+public class RegisterActivityController extends AppCompatActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        i++;
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registeractivity);
     }
 
-    public void touchRegister(View view) {
+    public void touchRegister(View view)
+    {
+        Random rand = new Random();
         boolean DoBTrue = false,
                 SSNTrue = false,
                 VIDTrue = false,
                 EmailTrue = false,
                 PassTrue = false;
-        String userID = String.valueOf(i);
         EditText txtFname = findViewById(R.id.txtFname);
         EditText txtLname = findViewById(R.id.txtLname);
         EditText txtState = findViewById(R.id.txtState);
@@ -45,21 +45,27 @@ public class RegisterActivityController extends AppCompatActivity {
         String PassSalt = generateRandomSalt(100);
         String EmailSalt = generateRandomSalt(100);
         String SSNSalt = generateRandomSalt(100);
+        String userIDP1 = txtFname.getText().toString().substring(0,1);
+        String userIDP2 = txtLname.getText().toString();
+        int userIDP3num = rand.nextInt(9000)+1000;
+        String userIDP3 = String.valueOf(userIDP3num);
+        String userID = userIDP1 + userIDP2 + userIDP3;
+
         int UserYear, year;
         if (!txtDob.getText().toString().equals("")) {
             if (txtDob.getText().toString().matches("([0-9]+){2}/([0-9]+){2}/([0-9]+){4}")) {
-                if (Integer.parseInt(txtDob.getText().toString().substring(0, 1)) > 12) {
+                if (Integer.parseInt(txtDob.getText().toString().substring(0, 2)) > 12) {
                     DoBTrue = false;
                     Toast.makeText(this, "Please enter a valid date", Toast.LENGTH_LONG).show();
-                } else if (Integer.parseInt(txtDob.getText().toString().substring(3, 4)) > 31) {
+                } else if (Integer.parseInt(txtDob.getText().toString().substring(3, 5)) > 31) {
                     DoBTrue = false;
                     Toast.makeText(this, "Please enter a valid date", Toast.LENGTH_LONG).show();
-                } else if (Integer.parseInt(txtDob.getText().toString().substring(6, 9)) > Calendar.getInstance().get(Calendar.YEAR)){
+                } else if (Integer.parseInt(txtDob.getText().toString().substring(6, 10)) > Calendar.getInstance().get(Calendar.YEAR)) {
                     DoBTrue = false;
                     Toast.makeText(this, "Please enter a valid date", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    UserYear = Integer.parseInt(txtDob.getText().toString().substring(6, 9));
+                    UserYear = Integer.parseInt(txtDob.getText().toString().substring(6, 10));
                     year = Calendar.getInstance().get(Calendar.YEAR);
                     if (year - UserYear >= 18) {
                         DoBTrue = true;
@@ -100,7 +106,8 @@ public class RegisterActivityController extends AppCompatActivity {
         if (validatePassword(txtPassword.getText().toString())) {
             PassTrue = true;
         }
-        if (DoBTrue && SSNTrue && VIDTrue && EmailTrue && PassTrue && !txtFname.getText().toString().equals("") && !txtLname.getText().toString().equals("") && !txtState.getText().toString().equals("")) {
+        if (DoBTrue && SSNTrue && VIDTrue && EmailTrue && PassTrue && !txtFname.getText().toString().equals("")
+                && !txtLname.getText().toString().equals("") && !txtState.getText().toString().equals("")) {
             DatabaseReference mDatabase;
             mDatabase = FirebaseDatabase.getInstance().getReference().child("UserData").child(userID);
 
@@ -116,14 +123,16 @@ public class RegisterActivityController extends AppCompatActivity {
             mDatabase.child("PassSalt").setValue(PassSalt);
             mDatabase.child("EmailSalt").setValue(EmailSalt);
             mDatabase.child("SSNSalt").setValue(SSNSalt);
-            Intent intent = new Intent(this, RaceListActivityController.class);
+            Intent intent = new Intent(this, LoginActivityController.class);
             startActivity(intent);
         }
         else
         {
-            Toast.makeText(this, "Please ensure all of the above data is the correct format, and that the Name fields and State field are not blank", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please ensure all of the above data is the correct format, " +
+                    "and that the Name fields and State field are not blank", Toast.LENGTH_LONG).show();
         }
     }
+
     public String getSecurePassword(String passwordToHash, String messageSalt){
         String generatedPassword = null;
         try {
@@ -141,6 +150,7 @@ public class RegisterActivityController extends AppCompatActivity {
         }
         return generatedPassword;
     }
+
     static final String AlphaNum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     static SecureRandom randomSalt = new SecureRandom();
 
@@ -167,16 +177,18 @@ public class RegisterActivityController extends AppCompatActivity {
             return false;
         }
     }
-    //(?=.+[a-z])(?=.+[A-Z])(?=.+[1-9])(?=.+[@$!%*?&])[A-Za-z1-9@$!%*?&]{8,}
+
     private boolean validatePassword(String password)
     {
         if (password.matches("(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*")) {
             return true;
         }
         else {
-            Toast.makeText(this, "Password should be at least 8 characters long and contain at least 1 Uppercase letter, 1 Lowercase letter, 1 digit, and 1 special character", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Password should be at least 8 characters long and contain at " +
+                    "least 1 Uppercase letter, 1 Lowercase letter, 1 digit, and 1 special character", Toast.LENGTH_LONG).show();
             return false;
         }
     }
+
 }
 

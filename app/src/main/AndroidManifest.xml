@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".Controller.LoginActivityController"></activity>
         <activity android:name=".Controller.RegisterActivityController"></activity>
-        <activity android:name=".Controller.RaceListActivityController"></activity>
+        <activity android:name=".Controller.TwoFacAuthActivityController"></activity>
     </application>
 
 </manifest>

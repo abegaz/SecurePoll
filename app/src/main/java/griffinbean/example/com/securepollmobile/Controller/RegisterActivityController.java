@@ -43,7 +43,6 @@ public class RegisterActivityController extends AppCompatActivity
         EditText txtConfirmEmail = findViewById(R.id.txtConfirmEmail);
         EditText txtPassword = findViewById(R.id.txtPassword);
         String PassSalt = generateRandomSalt(100);
-        String EmailSalt = generateRandomSalt(100);
         String SSNSalt = generateRandomSalt(100);
         String userIDP1 = txtFname.getText().toString().substring(0,1);
         String userIDP2 = txtLname.getText().toString();
@@ -118,10 +117,9 @@ public class RegisterActivityController extends AppCompatActivity
             mDatabase.child("State").setValue(txtState.getText().toString());
             mDatabase.child("SSN").setValue(getSecurePassword(txtSSN.getText().toString(), SSNSalt) + SSNSalt);
             mDatabase.child("VoterIDNum").setValue(txtVoterID.getText().toString());
-            mDatabase.child("Email").setValue(getSecurePassword(txtEmail.getText().toString(), EmailSalt) + EmailSalt);
+            mDatabase.child("Email").setValue(txtEmail.getText().toString());
             mDatabase.child("Password").setValue(getSecurePassword(txtPassword.getText().toString(), PassSalt) + PassSalt);
             mDatabase.child("PassSalt").setValue(PassSalt);
-            mDatabase.child("EmailSalt").setValue(EmailSalt);
             mDatabase.child("SSNSalt").setValue(SSNSalt);
             Intent intent = new Intent(this, LoginActivityController.class);
             startActivity(intent);

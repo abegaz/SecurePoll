@@ -5,17 +5,6 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <script type="text/javascript">
-function checkform(){
-    var form1 = document.getElementById('myForm');
-    if(form1.email.value != form1.verifyemail.value)
-    {
-        alert("Passwords must be the same");
-        form1.email.focus();
-        return false;
-    }
-    return true;
-}
-
 
 //timeout after 5 minutes
 attachEvent(window,'load',function(){
@@ -53,7 +42,7 @@ function attachEvent(obj,evt,fnc,useCapture){
   	<h2>Register</h2>
   </div>
 
-		<form id="login" action="insert.php" method="POST" id="myForm" >
+		<form id="register" action="insert.php" method="POST" >
 
 			<div class="input-group"><label>First Name</label><input  name="fName" type="text" placeholder="Enter First Name" required></div>
 			<div class="input-group"><label>Last Name</label><input  name="Lname" type="text" placeholder="Enter Last Name" required></div>
@@ -116,7 +105,7 @@ function attachEvent(obj,evt,fnc,useCapture){
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
 		</select></div>		
-			<div class="input-group"><button type="Submit" name="RegisterButton" class="btn" onsubmit="return checkform();">Register</button></div>
+			<div class="input-group"><button type="submit" name="RegisterButton" class="btn">Register</button></div>
 
 		<form>
   	<p>

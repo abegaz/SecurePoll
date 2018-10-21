@@ -4,17 +4,6 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <script type="text/javascript">
-function checkform(){
-    var form1 = document.getElementById('myForm');
-    if(form1.email.value != form1.verifyemail.value)
-    {
-        alert("Passwords must be the same");
-        form1.email.focus();
-        return false;
-    }
-    return true;
-}
-
 
 //timeout after 5 minutes
 attachEvent(window,'load',function(){

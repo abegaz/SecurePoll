@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "cromer678";
 $myDB = "securepoll";
-$emailRegEx = "/([a-Z]+|[1-9]+)+\@([a=Z]+|[1-9]+)+\.[a-Z]+/";
+$emailRegEx = "/([a-z]+|[1-9]+)+\@([a-z]+|[1-9]+)+\.[a-z]+/";
 $passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/";
 
 $valid = True;
@@ -14,42 +14,48 @@ if($_POST['email'] != $_POST['verifyemail']){
 	$valid = False;
 }
 //Checks if email is in proper format
-if(!preg_match($emailRegEx, $_POST['email'])){
-	$message = "Please enter a valid password";
+elseif(!preg_match($emailRegEx, $_POST['email'])){
+	$message = "Please enter a valid email address";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
 //Checks if password meets requirements
-if(!preg_match($passwordRegEx, $_POST['Password'])){
+elseif(!preg_match($passwordRegEx, $_POST['Password'])){
 	$message = "Password must be 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
 
 //Checks if ssn has 4 characters
-if(strlen($_POST['ssn'])!=4){
+elseif(strlen($_POST['ssn'])!=4){
 	$message = "Please only include the last 4 digits of your Social Security Number";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
 
 //checks for valid date of birth
-if(strlen($_POST['DoB'])!=10){
+elseif(strlen($_POST['DoB'])!=10){
 	$message = "Date of Birth not valid";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
 
-
+elseif($_POST['DoB'] > date('Y-m-d', strtotime('-18 years'))){
+	$message = "You must be at least 18 years old to vote.";
+	echo "<script type='text/javascript'>alert('$message');</script>";
+	$valid = False;
+}
 
 if ($valid == False){
-	echo "<SCRIPT type='text/javascript'> window.location.replace(\"http://localhost/SecurePoll/register.php\");</SCRIPT>";
+	echo "<SCRIPT type='text/javascript'> window.location.replace(\"register.php\");</SCRIPT>";
 }
+
 
 //this adds to database SANITIZE MORE!
 else
 {
-	
+
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
     // set the PDO error mode to exception

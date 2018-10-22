@@ -2,13 +2,13 @@ package griffinbean.example.com.securepollmobile.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
-import android.util.Log;
 
 import java.util.Random;
 
@@ -24,20 +24,17 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
     public void touchConfirm(View view) {
         EditText txtConfirm = findViewById(R.id.txtConfirm);
         String code = txtConfirm.getText().toString();
-        if (code.equals(String.valueOf(genCode)))
-        {
+        if (code.equals(String.valueOf(genCode))) {
             Toast.makeText(this, "Authentication Confirmed", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, RaceListActivityController.class);
             startActivity(intent);
         }
-        else
-        {
+        else {
             Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void sendEmail(View view)
-    {
+    public void sendEmail(View view) {
         EditText txtEmail2Fac = findViewById(R.id.txtEmail2Fac);
         String email = txtEmail2Fac.getText().toString();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -48,22 +45,27 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot UserData : dataSnapshot.getChildren()) {
                         EditText txtEmail = findViewById(R.id.txtEmail2Fac);
-                        String email = txtEmail.getText().toString();
-                        if (!email.equals(UserData.child("Email").getValue()))
-                        {
+                        final String email = txtEmail.getText().toString();
+                        if (!email.equals(UserData.child("Email").getValue())) {
                             displayFail();
                         }
-                        else
-                        {
-                            try {
-                                GMailSender sender = new GMailSender("CSCI3300SecurePoll@gmail.com", "SecurePollCSCI3300");
-                                sender.sendMail("Your SecurePoll Authentication Code",
-                                        "Use this code: " + genCode + " to access your SecurePoll voting services",
-                                        "CSCI3300SecurePoll@gmail.com",
-                                        email);
-                            } catch (Exception e) {
-                                displayFail();
-                            }
+                        else {
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Looper.prepare();
+                                        GMailSender sender = new GMailSender("CSCI3300SecurePoll@gmail.com", "SecurePollCSCI3300");
+                                        sender.sendMail("Your SecurePoll Authentication Code",
+                                                "Use this code: " + String.valueOf(genCode) + " to access your SecurePoll voting services",
+                                                "CSCI3300SecurePoll@gmail.com",
+                                                email);
+                                    }catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            thread.start();
                         }
                     }
                 }

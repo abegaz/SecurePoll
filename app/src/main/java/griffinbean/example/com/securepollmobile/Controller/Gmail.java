@@ -25,7 +25,6 @@ class GMailSender extends javax.mail.Authenticator {
     }
 
     public GMailSender(String user, String password) {
-        System.out.println("GmailSender entered");
         this.user = user;
         this.password = password;
 
@@ -39,7 +38,6 @@ class GMailSender extends javax.mail.Authenticator {
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.setProperty("mail.smtp.quitwait", "false");
         session = Session.getDefaultInstance(props, this);
-        System.out.println("GmailSender exited");
     }
 
     protected PasswordAuthentication getPasswordAuthentication() {
@@ -47,27 +45,18 @@ class GMailSender extends javax.mail.Authenticator {
     }
 
     public synchronized void sendMail(String subject, String body, String sender, String recipients) throws MessagingException {
-            System.out.println("sendMail method started");
             MimeMessage message = new MimeMessage(session);
-            System.out.println("message created");
             DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
-            System.out.println("handler created");
             message.setSender(new InternetAddress(sender));
-            System.out.println("sender set");
             message.setSubject(subject);
-            System.out.println("subject set");
             message.setDataHandler(handler);
-            System.out.println("handler set");
             if (recipients.indexOf(',') > 0) {
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
-                System.out.println("checked for commas");
             }
             else {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
-                System.out.println("set recipient");
             }
             send(message);
-            System.out.println("sent message");
     }
 
     public class ByteArrayDataSource implements DataSource {

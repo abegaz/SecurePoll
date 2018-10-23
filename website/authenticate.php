@@ -9,7 +9,7 @@ require './PHPMailer/src/SMTP.php';
 
 function incorrectLogin(){
 	
-	echo "incorect login information";
+	echo "incorrect login information";
 }
 
 function generateRandomString($length = 10) {
@@ -29,9 +29,10 @@ echo("
 	<head>
 	<title>SecurePoll</title>
 	<meta charset=\"UTF8\">
-	<link rel=\"stylesheet\" href=\"securePoll.css\">
+	<link rel=\"stylesheet\" href=\"style.css\">
 	</head>
-	<script>
+	<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
+	<script type=\"text/javascript\">
 //timeout after 5 minutes
 attachEvent(window,'load',function(){
   var idleSeconds =300;
@@ -60,16 +61,69 @@ function attachEvent(obj,evt,fnc,useCapture){
   } else if (obj.attachEvent){
     return obj.attachEvent(\"on\"+evt,fnc);
   }
-} 
+}
+
+$( document ).ready(function() {
+$(\"#table tr\").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');    
+   var value=$(this).find('td:first').html();
+   alert(value);    
+});
+
+$('.ok').on('click', function(e){
+    alert($(\"#table tr.selected td:first\").html());
+});
+});
 </script>
 	<body>
 	<div class=\"centered_div\">
-	<h2>Welcome ");echo $_SESSION['state'];
-	echo("</h2><p>Here's a list of Races</p>");
+	<h2>Welcome ");echo $_SESSION['firstName'];
+	echo("</h2><p>Here's a list of the different votes you can do</p>");
+	echo "<table style='border: solid 1px black; background-color:#ADD8E6;' id=\"table\">";
+	echo "<tr><th>Position</th><th>state</th><th>type</th></tr>";
+	class TableRows extends RecursiveIteratorIterator { 
+    function __construct($it) { 
+        parent::__construct($it, self::LEAVES_ONLY); 
+    }
+
+    function current() {
+        return "<td style='width: 150px; border: 1px solid black;'>" . parent::current(). "</td>";
+    }
+
+    function beginChildren() { 
+        echo "<tr>"; 
+    } 
+
+    function endChildren() { 
+        echo "</tr>" . "\n";
+    } 
+} 
+	try{
+$servername = "localhost";
+$username = "root";
+$password = "cromer678";
+$myDB = "securepoll";
+
+	$conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$stmtRace = $conn->prepare("SELECT position, state, type FROM racedata WHERE state = 'National' UNION SELECT position, state, type FROM racedata WHERE state = :State;");
 	
+	$stmtRace->bindParam(':State', $_SESSION['state']);
+	$stmtRace->execute();
 	
-	//disgusting table with user's info
-	
+	$result = $stmtRace->setFetchMode(PDO::FETCH_ASSOC); 
+    foreach(new TableRows(new RecursiveArrayIterator($stmtRace->fetchAll())) as $k=>$v) { 
+        echo $v;
+		
+    }
+}catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+	echo "</table>";
+	echo("<input type=\"button\" name=\"OK\" class=\"ok\" value=\"OK\"/>");
+	/*
 	echo ("<table width=\"100%;\"><tr>
 	<th>Firstname</th>
     <th>Lastname</th> 
@@ -86,13 +140,15 @@ function attachEvent(obj,evt,fnc,useCapture){
     <td>";echo $_SESSION['voternumber'];echo "</td>
   </tr>
 
-</table>";
+</table>";*/
 	}else{
 				echo ("<script LANGUAGE='JavaScript'>
     window.alert('Incorrect Authentication Code');
     window.location.href='http://google.com';
     </script>");
 	}
+	
+	
 }
 
 else
@@ -125,18 +181,18 @@ try {
     echo "Connected successfully";
 	$Name = $_POST['fName'];
 	$lname = $_POST['Lname'];
-	$Dob = $_POST['DoB'];
 	$ssn = $_POST['ssn'];
 	$VoterIDNum = $_POST['VoterIDNum'];
-	$Password = $_POST['Password'];
+	$Password = $_POST['password'];
+
 	$UserID = uniqId('id');
 
 	echo $Name;
 	
 	
 	//compares entered password to database 
-	$stmt1 = $conn->prepare("SELECT Salt, password FROM userdata WHERE ssn=:salt AND VoterIDNum=:VoterIDNum LIMIT 1");
-	$stmt1->bindParam(":salt", $ssn);
+	$stmt1 = $conn->prepare("SELECT Salt, password FROM userdata WHERE ssn=:ssn AND VoterIDNum=:VoterIDNum LIMIT 1");
+	$stmt1->bindParam(":ssn", $ssn);
 	$stmt1->bindParam(":VoterIDNum", $VoterIDNum);
 	$stmt1->execute();
 	
@@ -145,8 +201,8 @@ try {
 	$passwordDatabase = $row[1];
 	
 	$input_password_hash = hash('sha512', $Password.$salt);
-
 	if($input_password_hash == $passwordDatabase){
+
 		echo "correct password";
 
 	}else{
@@ -163,11 +219,10 @@ try {
 	
 	//retrieves all relevant information
 
-	$stmt = $conn->prepare("SELECT Fname, Lname, DoB, ssn, VoterIDNum, state FROM Userdata WHERE Fname=:Fname AND Lname=:Lname AND DoB=:DoB AND ssn=:ssn AND VoterIDNum = :VoterIDNum AND Password = :Password LIMIT 1");
+	$stmt = $conn->prepare("SELECT Fname, Lname, ssn, VoterIDNum,state , email FROM Userdata WHERE Fname=:Fname AND Lname=:Lname AND ssn=:ssn AND VoterIDNum = :VoterIDNum AND Password = :Password LIMIT 1");
 
     $stmt->bindParam(':Fname', $Name);
     $stmt->bindParam(':Lname', $lname);
-	$stmt->bindParam(':DoB', $Dob);
     $stmt->bindParam(':ssn', $ssn);
     $stmt->bindParam(':VoterIDNum', $VoterIDNum);
 	$stmt->bindParam(':Password', $input_password_hash);
@@ -176,10 +231,10 @@ if($stmt->execute()){
 	$userRow = $stmt->fetch();
 	$_SESSION['firstName'] = $userRow[0];
 	$_SESSION['lastName'] = $userRow[1];
-	$_SESSION['dateofbirth'] = $userRow[2];
-	$_SESSION['social'] = $userRow[3];
-	$_SESSION['voternumber'] = $userRow[4];
-	$_SESSION['state'] = $userRow[5];
+	$_SESSION['social'] = $userRow[2];
+	$_SESSION['voternumber'] = $userRow[3];
+	$_SESSION['state'] = $userRow[4];
+	$_SESSION['email'] = $userRow[5];
 	$stmt = null;
 	
 	generateRandomString();
@@ -197,9 +252,9 @@ if($stmt->execute()){
 	$mail->SetFrom('no-reply@SecurePoll.com');
 	$mail->Subject = 'Hello World';
 	$mail->Body = 'Your authentification password is '.$randomString ;
-	$mail->AddAddress('cromeralec@gmail.com');
+	$mail->AddAddress($_SESSION['email']);
 
-	$mail->Send();
+	//$mail->Send();
 	
 echo("
 <html>
@@ -207,7 +262,7 @@ echo("
 <title>SecurePoll</title>
 <meta charset=\"UTF8\">
 <script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>
-<link rel=\"stylesheet\" href=\"securePoll.css\">
+<link rel=\"stylesheet\" href=\"style.css\">
 <script type=\"text/javascript\" src=\"script.js\"></script>
 <script>
 //timeout after 5 minutes

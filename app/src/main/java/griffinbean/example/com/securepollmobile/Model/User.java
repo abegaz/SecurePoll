@@ -1,14 +1,17 @@
 package griffinbean.example.com.securepollmobile.Model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class User
 {
-    private int userID;
+    private String userID;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
     private String state;
-    private int SSN;
-    private int voterID;
+    private String SSN;
+    private String voterID;
     private String email;
     private String password;
 
@@ -16,7 +19,7 @@ public class User
 
     }
 
-    public User(int userID, String firstName, String lastName, String dateOfBirth, String state, int SSN, int voterID, String email, String password)
+    public User(String userID, String firstName, String lastName, String dateOfBirth, String state, String SSN, String voterID, String email, String password)
     {
         this.userID = userID;
         this.firstName = firstName;
@@ -29,11 +32,33 @@ public class User
         this.password = password;
     }
 
-    public int getUserID() {
+    public DatabaseReference getFirebaseRefforUser(String i)
+    {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("UserData").child(i);
+        return mDatabase;
+    }
+
+    public void insertUsertoFirebase(DatabaseReference m, User u, String passSalt, String ssnSalt)
+    {
+        m.child("UserID").setValue(u.getUserID());
+        m.child("FName").setValue(u.getFirstName());
+        m.child("LName").setValue(u.getLastName());
+        m.child("DoB").setValue(u.getDateOfBirth());
+        m.child("State").setValue(u.getState());
+        m.child("SSN").setValue(u.getSSN());
+        m.child("VoterIDNum").setValue(u.getVoterID());
+        m.child("Email").setValue(u.getEmail());
+        m.child("Password").setValue(u.getPassword());
+        m.child("PassSalt").setValue(passSalt);
+        m.child("SSNSalt").setValue(ssnSalt);
+    }
+
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -69,19 +94,19 @@ public class User
         this.state = state;
     }
 
-    public int getSSN() {
+    public String getSSN() {
         return SSN;
     }
 
-    public void setSSN(int SSN) {
+    public void setSSN(String SSN) {
         this.SSN = SSN;
     }
 
-    public int getVoterID() {
+    public String getVoterID() {
         return voterID;
     }
 
-    public void setVoterID(int voterID) {
+    public void setVoterID(String voterID) {
         this.voterID = voterID;
     }
 

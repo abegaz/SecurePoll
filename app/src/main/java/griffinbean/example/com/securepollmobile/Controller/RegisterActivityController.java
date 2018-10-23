@@ -6,8 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import griffinbean.example.com.securepollmobile.Model.User;
 import griffinbean.example.com.securepollmobile.R;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -107,20 +106,19 @@ public class RegisterActivityController extends AppCompatActivity
         }
         if (DoBTrue && SSNTrue && VIDTrue && EmailTrue && PassTrue && !txtFname.getText().toString().equals("")
                 && !txtLname.getText().toString().equals("") && !txtState.getText().toString().equals("")) {
-            DatabaseReference mDatabase;
-            mDatabase = FirebaseDatabase.getInstance().getReference().child("UserData").child(userID);
+            User newUser = new User();
+            newUser.setUserID(userID);
+            newUser.setFirstName(txtFname.getText().toString());
+            newUser.setLastName(txtLname.getText().toString());
+            newUser.setDateOfBirth(txtDob.getText().toString());
+            newUser.setState(txtState.getText().toString());
+            newUser.setSSN(getSecurePassword(txtSSN.getText().toString(), SSNSalt) + SSNSalt);
+            newUser.setVoterID(txtVoterID.getText().toString());
+            newUser.setEmail(txtEmail.getText().toString());
+            newUser.setPassword(getSecurePassword(txtPassword.getText().toString(), PassSalt) + PassSalt);
 
-            mDatabase.child("UserID").setValue(userID);
-            mDatabase.child("FName").setValue(txtFname.getText().toString());
-            mDatabase.child("LName").setValue(txtLname.getText().toString());
-            mDatabase.child("DoB").setValue(txtDob.getText().toString());
-            mDatabase.child("State").setValue(txtState.getText().toString());
-            mDatabase.child("SSN").setValue(getSecurePassword(txtSSN.getText().toString(), SSNSalt) + SSNSalt);
-            mDatabase.child("VoterIDNum").setValue(txtVoterID.getText().toString());
-            mDatabase.child("Email").setValue(txtEmail.getText().toString());
-            mDatabase.child("Password").setValue(getSecurePassword(txtPassword.getText().toString(), PassSalt) + PassSalt);
-            mDatabase.child("PassSalt").setValue(PassSalt);
-            mDatabase.child("SSNSalt").setValue(SSNSalt);
+            newUser.insertUsertoFirebase(newUser.getFirebaseRefforUser(userID), newUser, PassSalt, SSNSalt);
+
             Intent intent = new Intent(this, LoginActivityController.class);
             startActivity(intent);
         }

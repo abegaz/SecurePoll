@@ -1,0 +1,89 @@
+<?php
+session_start();
+
+// initializing variables
+$fname = "";
+$pasword   = "";
+$errors = array(); 
+
+// connect to the database
+$db = mysqli_connect('localhost', '', '', 'securepoll');
+
+// REGISTER USER
+if (isset($_POST['register'])) {
+  // receive all input values from the form
+  $fname= mysqli_real_escape_string($db, $_POST['fname']);
+  $Lname = mysqli_real_escape_string($db, $_POST['Lname']);
+  $Dbirth = mysqli_real_escape_string($db, $_POST['Dbirth']);
+  $socialnumb = mysqli_real_escape_string($db, $_POST['socialnumb']);
+  $pasword = mysqli_real_escape_string($db, $_POST['pasword']);
+  $state = mysqli_real_escape_string($db, $_POST['state']);
+
+  // by adding (array_push()) corresponding error unto $errors array
+  if (empty($fname)) { array_push($errors, " First name is required"); }
+  if (empty($Lname)) { array_push($errors, " Last name is required"); }
+  if (empty($Dbirth)) { array_push($errors, "Date of birth is required"); }
+  if (empty($socialnumb)) { array_push($errors, " Social number is required"); }
+  if (empty($pasword)) { array_push($errors, "Password is required"); }
+  if (empty($state) { array_push($errors, "State is required"); }
+
+  
+
+
+
+  // first check the database to make sure 
+  // a user does not already exist with the same username and/or email
+  $people_check_query = "SELECT * FROM people WHERE fname='$fname' OR socialnumb='$socialnumb' LIMIT 1";
+  $result = mysqli_query($db, $people_check_query);
+  $people = mysqli_fetch_assoc($result);
+  
+  if ($people) { // if user exists
+    if ($people['fname'] === $fname) {
+      array_push($errors, "first already exists");
+    }
+
+    if ($people['social number'] === $socialnumb) {
+      array_push($errors, "social number already exists");
+    }
+  }
+
+  // register user if there are no errors in the form
+  if (count($errors) == 0) {
+    $pasword = md5($pasword);//encrypt the password before saving in the database
+
+    $query = "INSERT INTO people(fname,Lname,Dbirth,socialnumb,pasword,state) 
+          VALUES('$fname', '$Dbirth', '$socialnumb','$pasword','$state')";
+    mysqli_query($db, $query);
+    $_SESSION['first name'] = $fname;
+     $_SESSION['password'] = $pasword;
+    $_SESSION['success'] = "You are now logged in";
+    header('location: index.php');
+  }
+}
+// LOGIN USER
+if (isset($_POST['login_people'])) {
+  $fname = mysqli_real_escape_string($db, $_POST['fname']);
+  $pasword = mysqli_real_escape_string($db, $_POST['pasword']);
+
+  if (empty($fname)) {
+    array_push($errors, "Username is required");
+  }
+  if (empty($pasword)) {
+    array_push($errors, "Password is required");
+  }
+
+  if (count($errors) == 0) {
+    $pasword = md5($pasword);
+    $query = "SELECT * FROM people WHERE fname='$fname' AND password='$pasword'";
+    $results = mysqli_query($db, $query);
+    if (mysqli_num_rows($results) == 1) {
+      $_SESSION['first name'] = $fname;
+      $_SESSION['success'] = "You are now logged in";
+      header('location: index.html');
+    }else {
+      array_push($errors, "Wrong name/password combination");
+    }
+  }
+}
+
+?>

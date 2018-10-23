@@ -1,0 +1,48 @@
+<include ('server.html')?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration system PHP and MySQL</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="header">
+  	<h2>Login</h2>
+  </div>
+	
+  <form method="post" action="login.html">
+  	<?php include('errors.html'); ?>
+    <div class="input-group">
+      <label>First Name</label>
+      <input type="text" name="fname" >
+    </div>
+    <div class="input-group">
+      <label>Last name</label>
+      <input type="text" name="Lname">
+    </div>
+    <div class="input-group">
+      <label>Date Of Birth</label>
+      <input type="text" name="Dbirth">
+    </div>
+    <div class="input-group">
+      <label>Social Security Number</label>
+      <input type="text" name="socialnumb">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" name="pasword">
+    </div>
+    <div class="input-group">
+      <label>State</label>
+      <input type="text" name="state">
+    </div>
+  	
+  	<div class="input-group">
+  	  <button type="submit" class="btn" name="login">Login</button>
+  	</div>
+  	<p>
+  		Not a member? <a href="register.html">Sign up</a>
+  	</p>
+  </form>
+</body>
+</html>

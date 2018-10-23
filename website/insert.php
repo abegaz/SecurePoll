@@ -5,7 +5,6 @@ $password = "cromer678";
 $myDB = "securepoll";
 $emailRegEx = "/([a-z]+|[1-9]+)+\@([a-z]+|[1-9]+)+\.[a-z]+/";
 $passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/";
-
 $valid = True;
 //Makes sure both email address fields match
 if($_POST['email'] != $_POST['verifyemail']){
@@ -25,37 +24,29 @@ elseif(!preg_match($passwordRegEx, $_POST['Password'])){
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
-
 //Checks if ssn has 4 characters
 elseif(strlen($_POST['ssn'])!=4){
 	$message = "Please only include the last 4 digits of your Social Security Number";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
-
 //checks for valid date of birth
 elseif(strlen($_POST['DoB'])!=10){
 	$message = "Date of Birth not valid";
     echo "<SCRIPT type='text/javascript'>alert('$message');</SCRIPT>";
 	$valid = False;
 }
-
 elseif($_POST['DoB'] > date('Y-m-d', strtotime('-18 years'))){
 	$message = "You must be at least 18 years old to vote.";
 	echo "<script type='text/javascript'>alert('$message');</script>";
 	$valid = False;
 }
-
 if ($valid == False){
 	echo "<SCRIPT type='text/javascript'> window.location.replace(\"register.php\");</SCRIPT>";
 }
-
-
 //this adds to database SANITIZE MORE!
 else
 {
-
-
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
     // set the PDO error mode to exception
@@ -72,10 +63,10 @@ try {
 	$salt = uniqId('1234567890qwertyuiop');
 	$salted = $Password.$salt;
 	$hashed = hash('sha512', $salted);
-	$state = $_POST['State'];
+	$state = $_POST['state'];
 	$UserID = uniqId('id');
 	$Admin = "false";
-	$stmt = $conn->prepare("INSERT INTO userdata (UserID, Fname, Lname,DoB,ssn,VoterIDNum,Password,Salt,State,email,Admin) VALUES (:UserID,:Fname,:Lname,:DoB,:ssn,:VoterIDNum,:Password,:Salt,:State,:email,:Admin)");
+	$stmt = $conn->prepare("INSERT INTO userdata (UserID, Fname, Lname,DoB,ssn,VoterIDNum,Password,Salt,State,email,Admin) VALUES (:UserID,:Fname,:Lname,:DoB,:ssn,:VoterIDNum,:Password,:Salt,:state,:email,:Admin)");
 	
 	$stmt->bindParam(':UserID', $UserID);
     $stmt->bindParam(':Fname', $Name);
@@ -85,7 +76,7 @@ try {
     $stmt->bindParam(':VoterIDNum', $VoterIDNum);
 	$stmt->bindParam(':Password', $hashed);
 	$stmt->bindParam(':Salt', $salt);
-	$stmt->bindParam(':State', $state);
+	$stmt->bindParam(':state', $state);
 	$stmt->bindParam(':email', $email);
 	$stmt->bindParam(':Admin', $Admin);
 	$stmt->execute();
@@ -99,6 +90,7 @@ try {
 catch(PDOException $e)
     {
     echo "Connection failed: " . $e->getMessage();
+	
     }
 	
 }
@@ -122,16 +114,12 @@ attachEvent(window,'load',function(){
   attachEvent(document.body,'mousemove',resetTimer);
   attachEvent(document.body,'keydown',resetTimer);
   attachEvent(document.body,'click',resetTimer);	
-
   resetTimer(); // Start the timer when the page loads
 });
-
 function whenUserIdle(){
-
 alert("You have been idle for 5 minutes, returning to home page.");
 document.location.href = "http://localhost/SecurePoll/index.php";
 }
-
 function attachEvent(obj,evt,fnc,useCapture){
   if (obj.addEventListener){
     obj.addEventListener(evt,fnc,!!useCapture);

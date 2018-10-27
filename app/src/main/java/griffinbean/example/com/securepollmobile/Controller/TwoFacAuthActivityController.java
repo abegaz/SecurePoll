@@ -15,10 +15,14 @@ import java.util.Random;
 public class TwoFacAuthActivityController extends AppCompatActivity {
     Random rand = new Random();
     int genCode = rand.nextInt(899999)+100000;
+    String [] UserInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twofacauthactivity);
+        Bundle bundle = getIntent().getExtras();
+        UserInfo = bundle.getStringArray("UserInfo");
+        sendEmail(UserInfo[1]);
     }
 
     public void touchConfirm(View view) {
@@ -26,7 +30,10 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
         String code = txtConfirm.getText().toString();
         if (code.equals(String.valueOf(genCode))) {
             Toast.makeText(this, "Authentication Confirmed", Toast.LENGTH_LONG).show();
+            Bundle bundle = new Bundle();
+            bundle.putStringArray("UserInfo", UserInfo);
             Intent intent = new Intent(this, RaceListActivityController.class);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else {
@@ -34,9 +41,7 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
         }
     }
 
-    public void sendEmail(View view) {
-        EditText txtEmail2Fac = findViewById(R.id.txtEmail2Fac);
-        String email = txtEmail2Fac.getText().toString();
+    public void sendEmail(String email) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("UserData").orderByChild("Email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -44,8 +49,7 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot UserData : dataSnapshot.getChildren()) {
-                        EditText txtEmail = findViewById(R.id.txtEmail2Fac);
-                        final String email = txtEmail.getText().toString();
+                        final String email = UserInfo[1];
                         if (!email.equals(UserData.child("Email").getValue())) {
                             displayFail();
                         }

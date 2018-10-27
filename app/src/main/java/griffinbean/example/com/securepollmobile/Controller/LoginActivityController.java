@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.*;
+import griffinbean.example.com.securepollmobile.Model.User;
 import griffinbean.example.com.securepollmobile.R;
 
 import java.nio.charset.Charset;
@@ -38,7 +39,12 @@ public class LoginActivityController extends AppCompatActivity
                         String inputPass = getSecurePassword(txtPassword.getText().toString(), UserData.child("PassSalt").getValue().toString());
                         if (inputEmail.equals(UserData.child("Email").getValue())
                                 && (inputPass + UserData.child("PassSalt").getValue()).equals(UserData.child("Password").getValue())) {
-                            displayConfirm();
+                            String [] UserInfo = {  UserData.child("FName").getValue().toString(),
+                                                    UserData.child("Email").getValue().toString(),
+                                                    UserData.child("State").getValue().toString(),
+                                                    UserData.child("UserID").getValue().toString()
+                                                };
+                            displayConfirm(UserInfo);
                         }
                         else {
                             displayFail();
@@ -52,10 +58,13 @@ public class LoginActivityController extends AppCompatActivity
         });
     }
 
-    public void displayConfirm()
+    public void displayConfirm(String [] ud)
     {
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("UserInfo", ud);
         Toast.makeText(this, "Logged-in", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, TwoFacAuthActivityController.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

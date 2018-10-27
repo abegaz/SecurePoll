@@ -84,13 +84,16 @@ public class RegisterActivityController extends AppCompatActivity
             DoBTrue = false;
             Toast.makeText(this, "Please enter your Date of Birth", Toast.LENGTH_LONG).show();
         }
+
         if (txtSSN.getText().toString().matches("([1-9]){4}")) {
+
             SSNTrue = true;
         }
         else {
             SSNTrue = false;
             Toast.makeText(this, "Please ensure you 4 digits for your SSN", Toast.LENGTH_LONG).show();
         }
+
         if (txtVoterID.getText().toString().matches("([1-9]){10}")) {
             VIDTrue = true;
         }
@@ -98,12 +101,15 @@ public class RegisterActivityController extends AppCompatActivity
             VIDTrue = false;
             Toast.makeText(this, "Your VoterID number should be 10 digits", Toast.LENGTH_LONG).show();
         }
+
         if(validateEmail(txtEmail.getText().toString(), txtConfirmEmail.getText().toString())) {
             EmailTrue = true;
         }
+
         if (validatePassword(txtPassword.getText().toString())) {
             PassTrue = true;
         }
+
         if (DoBTrue && SSNTrue && VIDTrue && EmailTrue && PassTrue && !txtFname.getText().toString().equals("")
                 && !txtLname.getText().toString().equals("") && !txtState.getText().toString().equals("")) {
             User newUser = new User();

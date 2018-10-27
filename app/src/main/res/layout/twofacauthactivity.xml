@@ -9,7 +9,7 @@
 >
 
     <TextView
-            android:text="We need to send an authentication code to the email specified on your account, please enter that email below, and then the code from the email you recieve."
+            android:text="We just sent an authentication code to the email specified on your account, please enter that code below"
             android:layout_width="357dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView3" android:layout_marginTop="8dp"
@@ -23,17 +23,6 @@
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/txtEmail2Fac"
-            android:hint="Enter Email" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintVertical_bias="0.498" android:inputType="textEmailAddress"/>
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/txtConfirm"
@@ -42,25 +31,7 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintVertical_bias="0.759"/>
-    <Button
-            android:text="Send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/SendButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintVertical_bias="0.63" style="@style/Widget.AppCompat.Button.Colored"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:onClick="sendEmail"/>
+            app:layout_constraintVertical_bias="0.498"/>
     <Button
             android:text="Confirm"
             android:layout_width="wrap_content"
@@ -70,6 +41,6 @@
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintVertical_bias="0.883" style="@style/Widget.AppCompat.Button.Colored"
+            app:layout_constraintVertical_bias="0.722" style="@style/Widget.AppCompat.Button.Colored"
             android:textAppearance="@style/TextAppearance.AppCompat.Button" android:onClick="touchConfirm"/>
 </android.support.constraint.ConstraintLayout>

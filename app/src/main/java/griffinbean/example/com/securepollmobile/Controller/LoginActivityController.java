@@ -7,15 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.*;
-import griffinbean.example.com.securepollmobile.Model.User;
 import griffinbean.example.com.securepollmobile.R;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class LoginActivityController extends AppCompatActivity
-{
+public class LoginActivityController extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +56,7 @@ public class LoginActivityController extends AppCompatActivity
         });
     }
 
-    public void displayConfirm(String [] ud)
-    {
+    public void displayConfirm(String [] ud) {
         Bundle bundle = new Bundle();
         bundle.putStringArray("UserInfo", ud);
         Toast.makeText(this, "Logged-in", Toast.LENGTH_LONG).show();
@@ -68,8 +65,7 @@ public class LoginActivityController extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void displayFail()
-    {
+    public void displayFail() {
         Toast.makeText(this, "Your Email or Password was incorrect, please try again", Toast.LENGTH_LONG).show();
     }
 

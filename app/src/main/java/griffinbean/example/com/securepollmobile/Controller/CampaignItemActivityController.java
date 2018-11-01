@@ -1,12 +1,20 @@
 package griffinbean.example.com.securepollmobile.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
 
 public class CampaignItemActivityController extends AppCompatActivity {
     String [] UserInfo;
     String [] CampaignInfo;
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    int votesNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,5 +23,72 @@ public class CampaignItemActivityController extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         UserInfo = bundle.getStringArray("UserInfo");
         CampaignInfo = bundle.getStringArray("CampaignInfo");
+        final RadioGroup candidateGroup = findViewById(R.id.candidateGroup);
+        Query query = reference.child("CandidateData");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int i = 0;
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot CandidateData : dataSnapshot.getChildren()) {
+                        if (CandidateData.child("CampaignID").getValue().toString().equals(CampaignInfo[3])) {
+                            i++;
+                            RadioButton rdbtn = new RadioButton(CampaignItemActivityController.this);
+                            rdbtn.setId(i);
+                            rdbtn.setText(CandidateData.child("FName").getValue().toString() + " "
+                            + CandidateData.child("LName").getValue().toString() + " ("
+                            + CandidateData.child("Party").getValue().toString() + ")");
+                            candidateGroup.addView(rdbtn);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void touchConfirm(View view) {
+        final RadioGroup candidateGroup = findViewById(R.id.candidateGroup);
+        if (candidateGroup.getCheckedRadioButtonId() == -1)
+        {
+            Toast.makeText(this, "Please Select a Candidate before continuing", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            int selectedRB = candidateGroup.getCheckedRadioButtonId();
+            final RadioButton selected = findViewById(selectedRB);
+            Query query = reference.child("CandidateData");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot CandidateData : dataSnapshot.getChildren()) {
+                            if ((CandidateData.child("FName").getValue().toString() + " "
+                                    + CandidateData.child("LName").getValue().toString() + " ("
+                                    + CandidateData.child("Party").getValue().toString() + ")").equals(selected.getText()))
+                            {
+                                String votes = CandidateData.child("VoteCount").getValue().toString();
+                                votesNum = Integer.parseInt(votes);
+                                votesNum++;
+                                reference.child("CandidateData").child(CandidateData.child(
+                                        "CandidateID").getValue().toString()).child("VoteCount").setValue(votesNum);
+                                reference.child("CampaignData").child(CampaignInfo[3]).child(UserInfo[3]).setValue(UserInfo[1]);
+                                Bundle bundle = new Bundle();
+                                bundle.putStringArray("UserInfo", UserInfo);
+                                bundle.putStringArray("CampaignInfo", CampaignInfo);
+                                Intent intent = new Intent(CampaignItemActivityController.this, RaceListActivityController.class);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
     }
 }

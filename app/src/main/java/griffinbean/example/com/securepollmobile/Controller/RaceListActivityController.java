@@ -31,8 +31,8 @@ public class RaceListActivityController extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot CampaignData : dataSnapshot.getChildren()) {
-                        if (CampaignData.child("State").getValue().toString().equals(UserInfo[2]) ||
-                                CampaignData.child("State").getValue().toString().equals("National")) {
+                        if ((CampaignData.child("State").getValue().toString().equals(UserInfo[2]) ||
+                                CampaignData.child("State").getValue().toString().equals("National")) && !CampaignData.hasChild(UserInfo[3])) {
                             campList.add(CampaignData.child("State").getValue().toString() + " "
                                     + CampaignData.child("Position").getValue().toString() + " "
                                     + CampaignData.child("Type").getValue().toString());

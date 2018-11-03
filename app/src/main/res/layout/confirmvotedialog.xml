@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical">
+    <TextView
+            android:id="@+id/txtDiaConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text=""
+            android:textColor="#002054"/>
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                    android:id="@+id/yesBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@color/colorAccent"
+                    android:clickable="true"
+                    android:text="Yes"
+                    android:textColor="#000000"
+                    tools:ignore="ButtonStyle"
+                    android:focusable="true"
+                    android:layout_marginRight="15dp"/>
+            <Button
+                    android:id="@+id/noBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@color/colorAccent"
+                    android:clickable="true"
+                    android:text="No"
+                    android:textColor="#000000"
+                    android:focusable="true"
+                    tools:ignore="ButtonStyle"
+                    android:layout_marginLeft="15dp"/>
+    </LinearLayout>
+</LinearLayout>

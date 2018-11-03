@@ -14,7 +14,7 @@ import java.util.List;
 
 public class RaceListActivityController extends AppCompatActivity {
     String [] UserInfo;
-    List<String> campList = new ArrayList<String>();
+    List<String> campList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +73,7 @@ public class RaceListActivityController extends AppCompatActivity {
                                     Intent intent = new Intent(RaceListActivityController.this, CampaignItemActivityController.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }

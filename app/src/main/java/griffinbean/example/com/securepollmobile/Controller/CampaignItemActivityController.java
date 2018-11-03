@@ -51,42 +51,48 @@ public class CampaignItemActivityController extends AppCompatActivity {
 
     public void touchConfirm(View view) {
         final RadioGroup candidateGroup = findViewById(R.id.candidateGroup);
-        if (candidateGroup.getCheckedRadioButtonId() == -1)
-        {
+        int selectedRB = candidateGroup.getCheckedRadioButtonId();
+        final RadioButton selected = findViewById(selectedRB);
+        if (candidateGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this, "Please Select a Candidate before continuing", Toast.LENGTH_LONG).show();
         }
-        else
-        {
-            int selectedRB = candidateGroup.getCheckedRadioButtonId();
-            final RadioButton selected = findViewById(selectedRB);
-            Query query = reference.child("CandidateData");
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
+        else {
+            ConfirmDialogClass cdd = new ConfirmDialogClass(CampaignItemActivityController.this);
+            cdd.show();
+            cdd.confirm.setText("Confirm this is who you want to vote for\nThis cannot be changed later\n" + selected.getText());
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot CandidateData : dataSnapshot.getChildren()) {
-                            if ((CandidateData.child("FName").getValue().toString() + " "
-                                    + CandidateData.child("LName").getValue().toString() + " ("
-                                    + CandidateData.child("Party").getValue().toString() + ")").equals(selected.getText()))
-                            {
-                                String votes = CandidateData.child("VoteCount").getValue().toString();
-                                votesNum = Integer.parseInt(votes);
-                                votesNum++;
-                                reference.child("CandidateData").child(CandidateData.child(
-                                        "CandidateID").getValue().toString()).child("VoteCount").setValue(votesNum);
-                                reference.child("CampaignData").child(CampaignInfo[3]).child(UserInfo[3]).setValue(UserInfo[1]);
-                                Bundle bundle = new Bundle();
-                                bundle.putStringArray("UserInfo", UserInfo);
-                                bundle.putStringArray("CampaignInfo", CampaignInfo);
-                                Intent intent = new Intent(CampaignItemActivityController.this, RaceListActivityController.class);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+                public void onClick(View view) {
+                    Query query = reference.child("CandidateData");
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                for (DataSnapshot CandidateData : dataSnapshot.getChildren()) {
+                                    if ((CandidateData.child("FName").getValue().toString() + " "
+                                            + CandidateData.child("LName").getValue().toString() + " ("
+                                            + CandidateData.child("Party").getValue().toString() + ")").equals(selected.getText())) {
+                                        String votes = CandidateData.child("VoteCount").getValue().toString();
+                                        votesNum = Integer.parseInt(votes);
+                                        votesNum++;
+                                        reference.child("CandidateData").child(CandidateData.child(
+                                                "CandidateID").getValue().toString()).child("VoteCount").setValue(votesNum);
+                                        reference.child("CampaignData").child(CampaignInfo[3]).child(UserInfo[3]).setValue(UserInfo[1]);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putStringArray("UserInfo", UserInfo);
+                                        bundle.putStringArray("CampaignInfo", CampaignInfo);
+                                        Intent intent = new Intent(CampaignItemActivityController.this, RaceListActivityController.class);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                 }
             });
         }

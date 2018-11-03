@@ -1,9 +1,12 @@
+<!--//production ready-->
 <html>
+
 <head>
 <title>SecurePoll</title>
 <meta charset="UTF8">
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <script type="text/javascript">
 function checkform(){
     var form1 = document.getElementById('myForm');

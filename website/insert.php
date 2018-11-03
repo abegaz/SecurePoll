@@ -1,8 +1,43 @@
+<!--//production ready-->
+<html>
+<head>
+<title>SecurePoll</title>
+<meta charset="UTF8">
+<link rel="stylesheet" href="securePoll.css">
+</head>
+	<script>
+
+//timeout after 5 minutes
+attachEvent(window,'load',function(){
+  var idleSeconds =300;
+  var idleTimer;
+  function resetTimer(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
+  }
+  attachEvent(document.body,'mousemove',resetTimer);
+  attachEvent(document.body,'keydown',resetTimer);
+  attachEvent(document.body,'click',resetTimer);	
+  resetTimer(); // Start the timer when the page loads
+});
+function whenUserIdle(){
+alert("You have been idle for 5 minutes, returning to home page.");
+document.location.href = "http://localhost/SecurePoll/index.php";
+}
+function attachEvent(obj,evt,fnc,useCapture){
+  if (obj.addEventListener){
+    obj.addEventListener(evt,fnc,!!useCapture);
+    return true;
+  } else if (obj.attachEvent){
+    return obj.attachEvent("on"+evt,fnc);
+  }
+} 
+</script>
+<body onload="save()">
+<div class="centered_div">
+	<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "cromer678";
-$myDB = "securepoll";
+
 $emailRegEx = "/([a-z]+|[1-9]+)+\@([a-z]+|[1-9]+)+\.[a-z]+/";
 $passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/";
 $valid = True;
@@ -45,14 +80,9 @@ if ($valid == False){
 	echo "<SCRIPT type='text/javascript'> window.location.replace(\"register.php\");</SCRIPT>";
 }
 //this adds to database SANITIZE MORE!
-else
-{
+else{
+
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
-	
 	$Name = $_POST['fName'];
 	$lname = $_POST['Lname'];
 	$Dob = $_POST['DoB'];
@@ -61,78 +91,75 @@ try {
 	$VoterIDNum = $_POST['VoterIDNum'];
 	$Password = $_POST['Password'];
 	$salt = uniqId('1234567890qwertyuiop');
+	$SSNsalt = uniqId('1234567890qwertyuiop');
 	$salted = $Password.$salt;
+	$SSNsalted = $ssn.$SSNsalt;
+	$SSNhashed = hash('sha512', $SSNsalted);
 	$hashed = hash('sha512', $salted);
 	$state = $_POST['state'];
-	$UserID = uniqId('id');
-	$Admin = "false";
-	$stmt = $conn->prepare("INSERT INTO userdata (UserID, Fname, Lname,DoB,ssn,VoterIDNum,Password,Salt,State,email,Admin) VALUES (:UserID,:Fname,:Lname,:DoB,:ssn,:VoterIDNum,:Password,:Salt,:state,:email,:Admin)");
+	$UserID = $Name[0].$lname.rand(1000,9999);
 	
-	$stmt->bindParam(':UserID', $UserID);
-    $stmt->bindParam(':Fname', $Name);
-    $stmt->bindParam(':Lname', $lname);
-	$stmt->bindParam(':DoB', $Dob);
-    $stmt->bindParam(':ssn', $ssn);
-    $stmt->bindParam(':VoterIDNum', $VoterIDNum);
-	$stmt->bindParam(':Password', $hashed);
-	$stmt->bindParam(':Salt', $salt);
-	$stmt->bindParam(':state', $state);
-	$stmt->bindParam(':email', $email);
-	$stmt->bindParam(':Admin', $Admin);
-	$stmt->execute();
-    echo "New records created successfully";
-	$stmt = null;
-	$conn = null;
+	echo("<script>");
+	echo("
+  // Initialize Firebase
+  var config = {
+    apiKey: \"AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY\",
+    authDomain: \"polldatabase-52fc4.firebaseapp.com\",
+    databaseURL: \"https://polldatabase-52fc4.firebaseio.com\",
+    projectId: \"polldatabase-52fc4\",
+    storageBucket: \"polldatabase-52fc4.appspot.com\",
+    messagingSenderId: \"346839933651\"
+  };
+  firebase.initializeApp(config);
+  
+  
+//create firebase references
+  var Auth = firebase.auth(); 
+  var dbRef = firebase.database();
+  var UserData = dbRef.ref('UserData')
+  var auth = null;
+  var messagesRef = firebase.database().ref('UserData');
+
+
+");
 	
-    
+echo("
+
+
+
+function saveUser(DoB, Email, FName, LName, PassSalt, Password, SSN, SSNSalt, State, UserID, VoterIDNum){
+  var newMessageRef = messagesRef.push();
+  newMessageRef.set({
+    Dob: DoB,
+    Email:Email,
+    FName:FName,
+    LName:LName,
+    PassSalt:PassSalt,
+	Password:Password,
+    SSN:SSN,
+	SSNSalt:SSNSalt,
+    State:State,
+	UserID:UserID,
+    VoterIDNum:VoterIDNum,
+  });
+}
+");
+echo("function save(){saveUser('$Dob', '$email', '$Name', '$lname', '$salt', '$hashed', '$SSNhashed', '$SSNsalt', '$state', '$UserID', '$VoterIDNum')}");
+	echo("</script>");
+    echo("<h2>You have successfully registered </h2>");
+echo("<p><a href=\"login.php\">Click here to login</a></p>");
+
     }
 	
 catch(PDOException $e)
     {
-    echo "Connection failed: " . $e->getMessage();
+    echo "failed";
 	
     }
 	
 }
 ?>
 
-<html>
-<head>
-<title>SecurePoll</title>
-<meta charset="UTF8">
-<link rel="stylesheet" href="securePoll.css">
-</head>
-	<script>
-//timeout after 5 minutes
-attachEvent(window,'load',function(){
-  var idleSeconds =300;
-  var idleTimer;
-  function resetTimer(){
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
-  }
-  attachEvent(document.body,'mousemove',resetTimer);
-  attachEvent(document.body,'keydown',resetTimer);
-  attachEvent(document.body,'click',resetTimer);	
-  resetTimer(); // Start the timer when the page loads
-});
-function whenUserIdle(){
-alert("You have been idle for 5 minutes, returning to home page.");
-document.location.href = "http://localhost/SecurePoll/index.php";
-}
-function attachEvent(obj,evt,fnc,useCapture){
-  if (obj.addEventListener){
-    obj.addEventListener(evt,fnc,!!useCapture);
-    return true;
-  } else if (obj.attachEvent){
-    return obj.attachEvent("on"+evt,fnc);
-  }
-} 
-</script>
-<body>
-<div class="centered_div">
-<h2>You have successfully registered <?php echo $_POST["fName"]; ?></h2>
-<p><a href="login.php">Click here to login</a></p>
 
 
 </div>

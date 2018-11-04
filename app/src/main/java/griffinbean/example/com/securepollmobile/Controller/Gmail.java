@@ -5,13 +5,11 @@ import java.security.AccessController;
 import java.security.Provider;
 import java.security.Security;
 import java.util.Properties;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import static javax.mail.Transport.send;
 
 class GMailSender extends javax.mail.Authenticator {

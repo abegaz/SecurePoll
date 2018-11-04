@@ -63,6 +63,7 @@ public class LoginActivityController extends AppCompatActivity {
         Intent intent = new Intent(this, TwoFacAuthActivityController.class);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     public void displayFail() {

@@ -15,17 +15,19 @@ import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Random;
 
-public class RegisterActivityController extends AppCompatActivity
-{
+public class RegisterActivityController extends AppCompatActivity {
+
+
+    static final String AlphaNum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static SecureRandom randomSalt = new SecureRandom();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registeractivity);
     }
 
-    public void touchRegister(View view)
-    {
+    public void touchRegister(View view) {
         Random rand = new Random();
         boolean DoBTrue = false,
                 SSNTrue = false,
@@ -43,15 +45,15 @@ public class RegisterActivityController extends AppCompatActivity
         EditText txtPassword = findViewById(R.id.txtPassword);
         String PassSalt = generateRandomSalt(100);
         String SSNSalt = generateRandomSalt(100);
-        String userIDP1 = txtFname.getText().toString().substring(0,1);
+        String userIDP1 = txtFname.getText().toString().substring(0, 1);
         String userIDP2 = txtLname.getText().toString();
-        int userIDP3num = rand.nextInt(9000)+1000;
+        int userIDP3num = rand.nextInt(9000) + 1000;
         String userIDP3 = String.valueOf(userIDP3num);
         String userID = userIDP1 + userIDP2 + userIDP3;
-
         int UserYear, year;
+
         if (!txtDob.getText().toString().equals("")) {
-            if (txtDob.getText().toString().matches("([0-9]+){2}/([0-9]+){2}/([0-9]+){4}")) {
+            if (txtDob.getText().toString().matches("([0-9]+){2}(/|-)([0-9]+){2}(/|-)([0-9]+){4}")) {
                 if (Integer.parseInt(txtDob.getText().toString().substring(0, 2)) > 12) {
                     DoBTrue = false;
                     Toast.makeText(this, "Please enter a valid date", Toast.LENGTH_LONG).show();
@@ -61,8 +63,7 @@ public class RegisterActivityController extends AppCompatActivity
                 } else if (Integer.parseInt(txtDob.getText().toString().substring(6, 10)) > Calendar.getInstance().get(Calendar.YEAR)) {
                     DoBTrue = false;
                     Toast.makeText(this, "Please enter a valid date", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     UserYear = Integer.parseInt(txtDob.getText().toString().substring(6, 10));
                     year = Calendar.getInstance().get(Calendar.YEAR);
                     if (year - UserYear >= 18) {
@@ -72,37 +73,33 @@ public class RegisterActivityController extends AppCompatActivity
                         Toast.makeText(this, "You are too young to vote in this country", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(this, HomePageActivityController.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
-            }
-            else{
+            } else {
                 DoBTrue = false;
                 Toast.makeText(this, "Date is in the wrong format", Toast.LENGTH_LONG).show();
             }
-        }
-        else {
+        } else {
             DoBTrue = false;
             Toast.makeText(this, "Please enter your Date of Birth", Toast.LENGTH_LONG).show();
         }
 
-        if (txtSSN.getText().toString().matches("([1-9]){4}")) {
-
-            SSNTrue = true;
-        }
-        else {
+        if (txtSSN.getText().toString().matches("([0-9]){4}")) {
+                SSNTrue = true;
+        } else {
             SSNTrue = false;
-            Toast.makeText(this, "Please ensure you 4 digits for your SSN", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please ensure you entered 4 digits for your SSN", Toast.LENGTH_LONG).show();
         }
 
-        if (txtVoterID.getText().toString().matches("([1-9]){10}")) {
+        if (txtVoterID.getText().toString().matches("([0-9]){10}")) {
             VIDTrue = true;
-        }
-        else {
+        } else {
             VIDTrue = false;
             Toast.makeText(this, "Your VoterID number should be 10 digits", Toast.LENGTH_LONG).show();
         }
 
-        if(validateEmail(txtEmail.getText().toString(), txtConfirmEmail.getText().toString())) {
+        if (validateEmail(txtEmail.getText().toString(), txtConfirmEmail.getText().toString())) {
             EmailTrue = true;
         }
 
@@ -122,66 +119,55 @@ public class RegisterActivityController extends AppCompatActivity
             newUser.setVoterID(txtVoterID.getText().toString());
             newUser.setEmail(txtEmail.getText().toString());
             newUser.setPassword(getSecurePassword(txtPassword.getText().toString(), PassSalt) + PassSalt);
-
             newUser.insertUsertoFirebase(newUser.getFirebaseRefforUser(userID), newUser, PassSalt, SSNSalt);
-
             Intent intent = new Intent(this, LoginActivityController.class);
             startActivity(intent);
-        }
-        else
-        {
+            finish();
+        } else {
             Toast.makeText(this, "Please ensure all of the above data is the correct format, " +
                     "and that the Name fields and State field are not blank", Toast.LENGTH_LONG).show();
         }
     }
 
-    public String getSecurePassword(String passwordToHash, String messageSalt){
+    private String getSecurePassword(String passwordToHash, String messageSalt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(messageSalt.getBytes(Charset.forName("UTF-8")));
             byte[] bytes = md.digest(passwordToHash.getBytes(Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++){
+            for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return generatedPassword;
     }
 
-    static final String AlphaNum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    static SecureRandom randomSalt = new SecureRandom();
-
-    String generateRandomSalt(int len ){
+    String generateRandomSalt(int len) {
         StringBuilder sb = new StringBuilder(len);
-        for( int i = 0; i < len; i++ )
-            sb.append( AlphaNum.charAt( randomSalt.nextInt(AlphaNum.length()) ));
+        for (int i = 0; i < len; i++)
+            sb.append(AlphaNum.charAt(randomSalt.nextInt(AlphaNum.length())));
         return sb.toString();
     }
 
-    private boolean validateEmail(String email, String cEmail)
-    {
+    private boolean validateEmail(String email, String cEmail) {
         if (email.equals(cEmail)) {
             if (email.matches("([a-zA-Z0-9]+)@([a-zA-Z0-9]+)\\.([a-z]+)")) {
                 return true;
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
                 return false;
             }
-        }
-        else {
+        } else {
             Toast.makeText(this, "Please ensure the email fields match", Toast.LENGTH_LONG).show();
             return false;
         }
     }
 
-    private boolean validatePassword(String password)
-    {
+    private boolean validatePassword(String password) {
         if (password.matches("(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*")) {
             return true;
         }
@@ -191,6 +177,5 @@ public class RegisterActivityController extends AppCompatActivity
             return false;
         }
     }
-
 }
 

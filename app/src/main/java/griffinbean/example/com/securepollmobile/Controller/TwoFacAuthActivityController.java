@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
-
 import java.util.Random;
 
 public class TwoFacAuthActivityController extends AppCompatActivity {
@@ -35,6 +34,7 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
             Intent intent = new Intent(this, RaceListActivityController.class);
             intent.putExtras(bundle);
             startActivity(intent);
+            finish();
         }
         else {
             Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show();
@@ -78,10 +78,9 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
     }
-    public void displayFail()
-    {
+
+    public void displayFail() {
         Toast.makeText(this, "Email not found", Toast.LENGTH_LONG).show();
     }
 }

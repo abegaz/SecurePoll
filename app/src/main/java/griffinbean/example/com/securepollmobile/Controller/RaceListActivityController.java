@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.*;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import java.util.List;
 public class RaceListActivityController extends AppCompatActivity {
     String [] UserInfo;
     List<String> campList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +40,11 @@ public class RaceListActivityController extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-
         });
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, campList );
         campaignList.setAdapter(arrayAdapter);
 

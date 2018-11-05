@@ -3,10 +3,9 @@
 <head>
 <title>SecurePoll</title>
 <meta charset="UTF8">
-<link rel="stylesheet" href="securePoll.css">
+<link rel="stylesheet" href="style.css">
 </head>
 	<script>
-
 //timeout after 5 minutes
 attachEvent(window,'load',function(){
   var idleSeconds =300;
@@ -37,7 +36,6 @@ function attachEvent(obj,evt,fnc,useCapture){
 <div class="centered_div">
 	<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
 <?php
-
 $emailRegEx = "/([a-z]+|[1-9]+)+\@([a-z]+|[1-9]+)+\.[a-z]+/";
 $passwordRegEx = "/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/";
 $valid = True;
@@ -81,7 +79,6 @@ if ($valid == False){
 }
 //this adds to database SANITIZE MORE!
 else{
-
 try {
 	$Name = $_POST['fName'];
 	$lname = $_POST['Lname'];
@@ -119,17 +116,12 @@ try {
   var UserData = dbRef.ref('UserData')
   var auth = null;
   var messagesRef = firebase.database().ref('UserData');
-
-
 ");
 	
 echo("
-
-
-
 function saveUser(DoB, Email, FName, LName, PassSalt, Password, SSN, SSNSalt, State, UserID, VoterIDNum){
-  var newMessageRef = messagesRef.push();
-  newMessageRef.set({
+
+  var newMessageRef = firebase.database().ref().child('UserData').child(UserID).set({
     Dob: DoB,
     Email:Email,
     FName:FName,
@@ -148,7 +140,6 @@ echo("function save(){saveUser('$Dob', '$email', '$Name', '$lname', '$salt', '$h
 	echo("</script>");
     echo("<h2>You have successfully registered </h2>");
 echo("<p><a href=\"login.php\">Click here to login</a></p>");
-
     }
 	
 catch(PDOException $e)

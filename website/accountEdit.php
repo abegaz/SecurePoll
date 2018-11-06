@@ -35,17 +35,20 @@ function attachEvent(obj,evt,fnc,useCapture){
   	<h2>Edit Your Account</h2>
   </div>
 		<form id="login" action="authenticate.php" method="POST">
-			<div class="input-group"><label>First Name </label><input  name="fName" type="text" placeholder="Enter New First Name" required></div>
-			<div class="input-group"><label>Last name</label><input  name="Lname" type="text" placeholder="Enter New Last Name" required></div>
-			<div class="input-group"><label>Email</label><input  name="email" type="text" placeholder="Enter New Email Adddress" required></div>
+			<div class="input-group"><label>Current First Name: FName </label><input  name="fName" type="text" placeholder="Enter New First Name" required></div>
+			<div class="input-group"><label>Current Last name: LName</label><input  name="Lname" type="text" placeholder="Enter New Last Name" required></div>
+			<div class="input-group"><label>Current Email: Email</label><input  name="email" type="text" placeholder="Enter New Email Adddress" required></div>
 			<div class="input-group"><label>Re-enter Email</label><input  name="verifyemail" type="text" placeholder="Verify New Email Adddress" required></div>
-			<div class="input-group"><label>Social Security Number</label><input  name="ssn" type="number" placeholder="New Last 4 digits of your Social Security Number" required></div>
-			<div class="input-group"><label>Voter ID Number</label><input  name="VoterIDNum" type="text" placeholder="Enter New Voter ID Number" required></div>
-			<div class="input-group"><label>Current Password</label><input  name="password" type="password" placeholder="Enter Current Password" required></div>
-			<div class="input-group"><label>Verify Current Password</label><input  name="password" type="password" placeholder="Re-Enter Current Password" required></div>
+			<div class="input-group"><label>Current Social Security Number: SSN</label><input  name="ssn" type="number" placeholder="New Last 4 digits of your Social Security Number" required></div>
+			<div class="input-group"><label>Current Voter ID: VoterIDNum</label><input  name="VoterIDNum" type="text" placeholder="Enter New Voter ID Number" required></div>
+			
+			<div class="input-group"><label>Current Password: Password</label><input  name="password" type="password" placeholder="Enter Current Password" required></div>
 			<div class="input-group"><label>New Password</label><input  name="password" type="password" placeholder="Enter New Password" required></div>
-			<div class="input-group">Date of Birth <input  name="DoB" type="date" placeholder="Date of Birth" required></div>
-			<div class="input-group"><label>State</label><select name="state" required>
+			<div class="input-group"><label>Verify New Password</label><input  name="password" type="password" placeholder="Re-Enter New Password" required></div>
+			<label>Current Date of Birth: Dob</label>
+			<div class="input-group">New Date of Birth <input  name="DoB" type="date" placeholder="Date of Birth" required></div>
+			<label>Current State: State</label>
+			<div class="input-group"><label>New State</label><select name="state" required>
 				<option value="Alabama">Alabama</option>
 				<option value="Alaska">Alaska</option>
 				<option value="Arizona">Arizona</option>

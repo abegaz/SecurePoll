@@ -44,6 +44,8 @@ function attachEvent(obj,evt,fnc,useCapture){
   	<p>
   		Not a member? <a href="register.php">Sign up</a>
   	</p>
+	<p>
+		Delete Account? <a href="deletephp.php">Delete</a>
 
 		</form>
 

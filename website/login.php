@@ -34,7 +34,7 @@ function attachEvent(obj,evt,fnc,useCapture){
   <div class="header">
   	<h2>Login</h2>
   </div>
-		<form id="loginForm" name="loginForm" action="authenticate.php">
+		<form id="loginForm" name="loginForm" action="authenticate.php" method="post">
 			<div class="input-group">Email<input  id="email" name="email" type="text" placeholder="Enter Email" required></div>
 			<div class="input-group"><label>Social Security Number</label><input  name="ssn" id="ssn" type="number" placeholder="Last 4 digits of your Social Security Number" required></div>
 			<div class="input-group"><label>Password</label><input  name="Password" id="Password" type="password" placeholder="Password" required></div>

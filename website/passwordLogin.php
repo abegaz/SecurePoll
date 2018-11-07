@@ -32,7 +32,7 @@ function attachEvent(obj,evt,fnc,useCapture){
 </script>
 <body>
   <div class="header">
-  	<h2>Login</h2>
+  	<h2>Login to Change Password</h2>
   </div>
 		<form id="login" action="authenticate.php" method="POST">
 			<div class="input-group"><label>First Name</label><input  name="fName" type="text" placeholder="Enter First Name" required></div>
@@ -40,9 +40,9 @@ function attachEvent(obj,evt,fnc,useCapture){
 			<div class="input-group"><label>Social Security Number</label><input  name="ssn" type="number" placeholder="Last 4 digits of your Social Security Number" required></div>
 			<div class="input-group"><label>Voter ID Number</label><input  name="VoterIDNum" type="text" placeholder="Enter Last Name" required></div>
 			<div class="input-group"><label>Password</label><input  name="password" type="password" placeholder="Password" required></div>
-			<div class="input-group"><button type="Submit" class="btn" name="RegisterButton">Login</button></div>
-			<p> Change Password <a href="passwordLogin.php">here</a><br>
-			  Not a member? <a href="register.php">Sign up</a> </p>
+			<div class="input-group"><button type="Submit" class="btn" name="RegisterButton">Change Password</button></div>
+  	
+
 		</form>
 
 

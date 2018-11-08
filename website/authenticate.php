@@ -88,6 +88,44 @@ $('.ok').on('click', function(e){
     alert($(\"#table tr.selected td:first\").html());
 });
 });
+
+function getPollData(){
+		var config = {
+		apiKey: \"AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY\",
+		authDomain: \"polldatabase-52fc4.firebaseapp.com\",
+		databaseURL: \"https://polldatabase-52fc4.firebaseio.com\",
+		projectId: \"polldatabase-52fc4\",
+		storageBucket: \"polldatabase-52fc4.appspot.com\",
+			messagingSenderId: \"346839933651\"
+		};
+		firebase.initializeApp(config);
+
+	//create firebase references
+		var Auth = firebase.auth(); 
+    var dbRef = firebase.database();
+    var UserData = dbRef.ref('UserData');
+    var auth = null;
+    var CampaignData = dbRef.ref('CampaignData');
+
+	var verify=\"true\";
+
+	CampaignData.orderByChild('state').equalTo(UserData.orderByChild('state')).on(\"value\", function(snapshot){
+		if(snapshot.exists()){
+			var content = '';
+			snapshot.forEach(function(data)){
+				content != '<tr>';
+				content += '<td>' + val.Position + '</td>';
+				content += '<td>' + val.State + '</td>';
+				content += '<td>' + val.Type + '</td>';
+				content += '</tr>';
+			}
+
+			return content;
+		}
+		});
+	}
+
+}
 </script>
 	<body>
 	<div class=\"centered_div\">
@@ -95,6 +133,7 @@ $('.ok').on('click', function(e){
 	echo("<p>Here's a list of the different votes you can do</p>");
 	echo "<table style='border: solid 1px black; background-color:#ADD8E6;' id=\"table\">";
 	echo "<tr><th>Position</th><th>state</th><th>type</th></tr>";
+	echo("<script>document.write(getPollData());</script>");
 	class TableRows extends RecursiveIteratorIterator { 
     function __construct($it) { 
         parent::__construct($it, self::LEAVES_ONLY); 
@@ -173,6 +212,8 @@ echo("
 <meta charset=\"UTF8\">
 
  <script src=\"js/sha.js\"></script>
+
+
 </head>
 	<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
 	<script>
@@ -190,10 +231,12 @@ attachEvent(window,'load',function(){
   attachEvent(document.body,'click',resetTimer);	
   resetTimer(); // Start the timer when the page loads
 });
+
 function whenUserIdle(){
 alert(\"You have been idle for 5 minutes, returning to home page.\");
 document.location.href = \"http://localhost/SecurePoll/index.php\";
 }
+
 function attachEvent(obj,evt,fnc,useCapture){
   if (obj.addEventListener){
     obj.addEventListener(evt,fnc,!!useCapture);
@@ -202,7 +245,10 @@ function attachEvent(obj,evt,fnc,useCapture){
     return obj.attachEvent(\"on\"+evt,fnc);
   }
 } 
+
 </script>
+
+
 <body onload=\"Checker()\">
 <div class=\"centered_div\">
 	<script src=\"https://www.gstatic.com/firebasejs/4.3.0/firebase.js\"></script>");
@@ -211,7 +257,7 @@ function attachEvent(obj,evt,fnc,useCapture){
 	//checks firebase for correct information
 	echo("<script>");
 	echo("
-		function Checker(){
+	function Checker(){
   // Initialize Firebase
   var config = {
     apiKey: \"AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY\",

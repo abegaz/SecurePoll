@@ -114,9 +114,9 @@ function getPollData(){
 			var content = '';
 			snapshot.forEach(function(data)){
 				content != '<tr>';
-				content += '<td>' + val.Position + '</td>';
-				content += '<td>' + val.State + '</td>';
-				content += '<td>' + val.Type + '</td>';
+				content += '<td>' + value.Position + '</td>';
+				content += '<td>' + value.State + '</td>';
+				content += '<td>' + value.Type + '</td>';
 				content += '</tr>';
 			}
 

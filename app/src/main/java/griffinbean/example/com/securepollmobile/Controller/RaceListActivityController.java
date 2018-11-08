@@ -84,5 +84,26 @@ public class RaceListActivityController extends AppCompatActivity {
             }
         });
     }
+
+    public void touchLogOut(View view) {
+        Intent intent = new Intent(this, HomePageActivityController.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void touchRefresh(View view) {
+        onRestart();
+    }
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("UserInfo", UserInfo);
+        Intent intent = new Intent(RaceListActivityController.this, RaceListActivityController.class);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
+    }
 }
 

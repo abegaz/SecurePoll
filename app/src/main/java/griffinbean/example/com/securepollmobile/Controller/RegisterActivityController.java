@@ -18,7 +18,7 @@ import java.util.Random;
 public class RegisterActivityController extends AppCompatActivity {
 
 
-    static final String AlphaNum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static final String AlphaNum = "1234567890qwertyuiop";
     static SecureRandom randomSalt = new SecureRandom();
 
     @Override
@@ -43,8 +43,8 @@ public class RegisterActivityController extends AppCompatActivity {
         EditText txtEmail = findViewById(R.id.txtEmail);
         EditText txtConfirmEmail = findViewById(R.id.txtConfirmEmail);
         EditText txtPassword = findViewById(R.id.txtPassword);
-        String PassSalt = generateRandomSalt(100);
-        String SSNSalt = generateRandomSalt(100);
+        String PassSalt = AlphaNum + generateRandomSalt(14);
+        String SSNSalt = AlphaNum + generateRandomSalt(14);
         String userIDP1 = txtFname.getText().toString().substring(0, 1);
         String userIDP2 = txtLname.getText().toString();
         int userIDP3num = rand.nextInt(9000) + 1000;
@@ -115,10 +115,10 @@ public class RegisterActivityController extends AppCompatActivity {
             newUser.setLastName(txtLname.getText().toString());
             newUser.setDateOfBirth(txtDob.getText().toString());
             newUser.setState(txtState.getText().toString());
-            newUser.setSSN(getSecurePassword(txtSSN.getText().toString(), SSNSalt) + SSNSalt);
+            newUser.setSSN(getSecurePassword(txtSSN.getText().toString() + SSNSalt));
             newUser.setVoterID(txtVoterID.getText().toString());
             newUser.setEmail(txtEmail.getText().toString());
-            newUser.setPassword(getSecurePassword(txtPassword.getText().toString(), PassSalt) + PassSalt);
+            newUser.setPassword(getSecurePassword(txtPassword.getText().toString() + PassSalt));
             newUser.insertUsertoFirebase(newUser.getFirebaseRefforUser(userID), newUser, PassSalt, SSNSalt);
             Intent intent = new Intent(this, LoginActivityController.class);
             startActivity(intent);
@@ -129,11 +129,10 @@ public class RegisterActivityController extends AppCompatActivity {
         }
     }
 
-    private String getSecurePassword(String passwordToHash, String messageSalt) {
+    private String getSecurePassword(String passwordToHash) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(messageSalt.getBytes(Charset.forName("UTF-8")));
             byte[] bytes = md.digest(passwordToHash.getBytes(Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {

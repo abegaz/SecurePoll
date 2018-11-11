@@ -34,9 +34,8 @@ public class LoginActivityController extends AppCompatActivity {
                         EditText txtEmail = findViewById(R.id.txtEmailLog);
                         EditText txtPassword = findViewById(R.id.txtPasswordLog);
                         String inputEmail = txtEmail.getText().toString();
-                        String inputPass = getSecurePassword(txtPassword.getText().toString(), UserData.child("PassSalt").getValue().toString());
-                        if (inputEmail.equals(UserData.child("Email").getValue())
-                                && (inputPass + UserData.child("PassSalt").getValue()).equals(UserData.child("Password").getValue())) {
+                        String inputPass = getSecurePassword(txtPassword.getText().toString() + UserData.child("PassSalt").getValue().toString());
+                        if (inputEmail.equals(UserData.child("Email").getValue()) && (inputPass.equals(UserData.child("Password").getValue()))) {
                             String [] UserInfo = {  UserData.child("FName").getValue().toString(),
                                                     UserData.child("Email").getValue().toString(),
                                                     UserData.child("State").getValue().toString(),
@@ -70,11 +69,10 @@ public class LoginActivityController extends AppCompatActivity {
         Toast.makeText(this, "Your Email or Password was incorrect, please try again", Toast.LENGTH_LONG).show();
     }
 
-    public String getSecurePassword(String passwordToHash, String messageSalt){
+    public String getSecurePassword(String passwordToHash){
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(messageSalt.getBytes(Charset.forName("UTF-8")));
             byte[] bytes = md.digest(passwordToHash.getBytes(Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
             for(int i=0; i< bytes.length ;i++){

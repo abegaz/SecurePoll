@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 use PHPMailer\PHPMailer\PHPMailer;
@@ -9,11 +10,24 @@ function incorrectLogin(){
 	
 	echo "incorrect login information";
 }
+//random string generator
 function generateRandomString($length = 10) {
     return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
+if(isset( $_POST['confirmed'])){
+	echo("
+<p>Enter authentication code sent to your email</p>
+<form method=\"post\" action=\"authenticate.php\" id=\"verify\">
+<p><input name=\"auth\" type=\"text\" placeholder=\"Authentication Number\" required></p>
+<p><button  name=\"VerifyButton\" type=\"submit\" onclick=\"action\">Verify</button></p></form>
+");
+}else{
+	
+//this IF occurs after the user enters the auth code from email
 if(isset($_POST['auth'])){
 	$authHash = hash('sha512', $_POST['auth']);
+	
+	//if entered code is correct to the one sent to email
 	if ($authHash==$_SESSION['random']){
 	ob_end_clean();
 	echo("<br>");
@@ -61,13 +75,47 @@ $('.ok').on('click', function(e){
     alert($(\"#table tr.selected td:first\").html());
 });
 });
+function getPollData(){
+		var config = {
+		apiKey: \"AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY\",
+		authDomain: \"polldatabase-52fc4.firebaseapp.com\",
+		databaseURL: \"https://polldatabase-52fc4.firebaseio.com\",
+		projectId: \"polldatabase-52fc4\",
+		storageBucket: \"polldatabase-52fc4.appspot.com\",
+			messagingSenderId: \"346839933651\"
+		};
+		firebase.initializeApp(config);
+	//create firebase references
+		var Auth = firebase.auth(); 
+    var dbRef = firebase.database();
+    var UserData = dbRef.ref('UserData');
+    var auth = null;
+    var CampaignData = dbRef.ref('CampaignData');
+	var verify=\"true\";
+	CampaignData.orderByChild('state').equalTo(UserData.orderByChild('state')).on(\"value\", function(snapshot){
+		if(snapshot.exists()){
+			var content = '';
+			snapshot.forEach(function(data)){
+				content != '<tr>';
+				content += '<td>' + value.Position + '</td>';
+				content += '<td>' + value.State + '</td>';
+				content += '<td>' + value.Type + '</td>';
+				content += '</tr>';
+			}
+			return content;
+		}
+		});
+	}
+}
+K2L40R98vn
 </script>
 	<body>
 	<div class=\"centered_div\">
-	<h2>Welcome ");echo $_SESSION['firstName'];
-	echo("</h2><p>Here's a list of the different votes you can do</p>");
+	<h2>Welcome</h2>");
+	echo("<p>Here's a list of the different votes you can do</p>");
 	echo "<table style='border: solid 1px black; background-color:#ADD8E6;' id=\"table\">";
 	echo "<tr><th>Position</th><th>state</th><th>type</th></tr>";
+	echo("<script>document.write(getPollData());</script>");
 	class TableRows extends RecursiveIteratorIterator { 
     function __construct($it) { 
         parent::__construct($it, self::LEAVES_ONLY); 
@@ -82,27 +130,6 @@ $('.ok').on('click', function(e){
         echo "</tr>" . "\n";
     } 
 } 
-	try{
-$servername = "localhost";
-$username = "root";
-$password = "cromer678";
-$myDB = "securepoll";
-	$conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$stmtRace = $conn->prepare("SELECT position, state, type FROM racedata WHERE state = 'National' UNION SELECT position, state, type FROM racedata WHERE state = :State;");
-	
-	$stmtRace->bindParam(':State', $_SESSION['state']);
-	$stmtRace->execute();
-	
-	$result = $stmtRace->setFetchMode(PDO::FETCH_ASSOC); 
-    foreach(new TableRows(new RecursiveArrayIterator($stmtRace->fetchAll())) as $k=>$v) { 
-        echo $v;
-		
-    }
-}catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 	echo "</table>";
 	echo("<input type=\"button\" name=\"OK\" class=\"ok\" value=\"OK\"/>");
 	/*
@@ -125,107 +152,33 @@ $myDB = "securepoll";
 	}else{
 				echo ("<script LANGUAGE='JavaScript'>
     window.alert('Incorrect Authentication Code');
-    window.location.href='http://google.com';
+    window.location.href='http://localhost/SecurePoll/login.php';
     </script>");
 	}
 	
 	
 }
 else
+	//This occurs when the user presses login
 {
-$_SESSION['hiya'] = 'hiya';
-$servername = "localhost";
-$username = "root";
-$password = "cromer678";
-$myDB = "securepoll";
-$logoutCounter = 0;
 $randomString = generateRandomString();
 $_SESSION['random'] = hash('sha512', $randomString);
 echo $randomString;
-try {
-	
-    $conn = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
-	$Name = $_POST['fName'];
-	$lname = $_POST['Lname'];
+   
+	$Email = $_POST['email'];
+	$_SESSION['email'] = $Email;
 	$ssn = $_POST['ssn'];
-	$VoterIDNum = $_POST['VoterIDNum'];
-	$Password = $_POST['password'];
-	$UserID = uniqId('id');
-	echo $Name;
-	
-	
-	//compares entered password to database 
-	$stmt1 = $conn->prepare("SELECT Salt, password FROM userdata WHERE ssn=:ssn AND VoterIDNum=:VoterIDNum LIMIT 1");
-	$stmt1->bindParam(":ssn", $ssn);
-	$stmt1->bindParam(":VoterIDNum", $VoterIDNum);
-	$stmt1->execute();
-	
-	$row = $stmt1->fetch();
-	$salt = $row[0];
-	$passwordDatabase = $row[1];
-	
-	$input_password_hash = hash('sha512', $Password.$salt);
-	if($input_password_hash == $passwordDatabase){
-		echo "correct password";
-	}else{
-		incorrectLogin();
-		exit();
-		//reverts user back to login...kinda, gotta set up a server for that, but google is fine for now.
-		//echo ("<script LANGUAGE='JavaScript'>
-    //window.alert('Incorrect Password');
-    //window.location.href='http://google.com';
-    //</script>");
-	}
-	$stmt1 =null;
-	
-	//retrieves all relevant information
-	$stmt = $conn->prepare("SELECT Fname, Lname, ssn, VoterIDNum,state , email FROM Userdata WHERE Fname=:Fname AND Lname=:Lname AND ssn=:ssn AND VoterIDNum = :VoterIDNum AND Password = :Password LIMIT 1");
-    $stmt->bindParam(':Fname', $Name);
-    $stmt->bindParam(':Lname', $lname);
-    $stmt->bindParam(':ssn', $ssn);
-    $stmt->bindParam(':VoterIDNum', $VoterIDNum);
-	$stmt->bindParam(':Password', $input_password_hash);
-if($stmt->execute()){
-		//all of the users' information is available here
-	$userRow = $stmt->fetch();
-	$_SESSION['firstName'] = $userRow[0];
-	$_SESSION['lastName'] = $userRow[1];
-	$_SESSION['social'] = $userRow[2];
-	$_SESSION['voternumber'] = $userRow[3];
-	$_SESSION['state'] = $userRow[4];
-	$_SESSION['email'] = $userRow[5];
-	$stmt = null;
-	
-	generateRandomString();
-	
-	
-	$mail = new PHPMailer();
-	$mail->isSMTP();
-	$mail->SMTPAuth = true;
-	$mail->SMTPSecure = 'ssl';
-	$mail->Host = 'smtp.gmail.com';
-	$mail->Port = '465';
-	$mail->isHTML();
-	$mail->Username = 'CSCI3300SecurePoll@gmail.com';
-	$mail->Password = 'SecurePollCSCI3300';
-	$mail->SetFrom('no-reply@SecurePoll.com');
-	$mail->Subject = 'Hello World';
-	$mail->Body = 'Your authentification password is '.$randomString ;
-	$mail->AddAddress($_SESSION['email']);
-	//$mail->Send();
+	$Password = $_POST['Password'];
 	
 echo("
 <html>
 <head>
 <title>SecurePoll</title>
 <meta charset=\"UTF8\">
-<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>
-<link rel=\"stylesheet\" href=\"style.css\">
-<script type=\"text/javascript\" src=\"script.js\"></script>
-<script>
+ <script src=\"js/sha.js\"></script>
+</head>
+	<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
+	<script>
 //timeout after 5 minutes
 attachEvent(window,'load',function(){
   var idleSeconds =300;
@@ -252,23 +205,120 @@ function attachEvent(obj,evt,fnc,useCapture){
   }
 } 
 </script>
-</head>
-<body><br><p style="color:white;"><center>Enter authentication code sent to your email</center></p>
-<form method=\"post\" action=\"authenticate.php\" id=\"verify\">
-<p style="color:white;"><center><input name=\"auth\" type=\"text\" placeholder=\"Authentication Number\" required></center></p>
-<p style="color:white;"><center><button  name=\"VerifyButton\" type=\"submit\" onclick=\"action\">Verify</button></center></p></form>
+<body onload=\"Checker()\">
+<div class=\"centered_div\">
+	<script src=\"https://www.gstatic.com/firebasejs/4.3.0/firebase.js\"></script>");
+	
+	
+	//checks firebase for correct information
+	echo("<script>");
+	echo("
+	function Checker(){
+  // Initialize Firebase
+  var config = {
+    apiKey: \"AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY\",
+    authDomain: \"polldatabase-52fc4.firebaseapp.com\",
+    databaseURL: \"https://polldatabase-52fc4.firebaseio.com\",
+    projectId: \"polldatabase-52fc4\",
+    storageBucket: \"polldatabase-52fc4.appspot.com\",
+    messagingSenderId: \"346839933651\"
+  };
+  firebase.initializeApp(config);
+  
+  
+//create firebase references
+  var Auth = firebase.auth(); 
+  var dbRef = firebase.database();
+  var UserData = dbRef.ref('UserData')
+  var auth = null;
+  var messagesRef = firebase.database().ref('UserData');
+	var verify=\"true\";
+");
+echo("UserData.orderByChild('Email').equalTo('$Email').on(\"value\", function(snapshot) {
+	if(snapshot.exists()){
+    console.log(snapshot.val());
+//takes data from email and sends it to PHP
+var json = snapshot.val();
+for (key in json) {
+  if (!json.hasOwnProperty(key)) continue;
+  
+  
+  Password = '$Password';
+  PassSalt = json[key].PassSalt;
+  var shaObj = new jsSHA(\"SHA-512\", \"TEXT\");
+  shaObj.update(Password + PassSalt);
+  
+  //hashed user entered password
+  var hash = shaObj.getHash(\"HEX\");
+	if(hash != json[key].Password){
+		verify = false;
+	}
+  
+  var SSN = '$ssn';
+  var SSNSalt = json[key].SSNSalt;
+  var shaObj = new jsSHA(\"SHA-512\", \"TEXT\");
+  shaObj.update(SSN + SSNSalt);
+  var hash2 = shaObj.getHash(\"HEX\");
+  
+	//alert(hash);
+	//alert(json[key].Password);
+	if(hash2 != json[key].SSN){
+		verify = false;
+	}
+}
+	}else{
+		alert(\"Sorry, that user does not exist\");
+	}
+		if(verify == false){
+		alert(\"Incorrect Login Information\");
+		document.location.href = \"http://localhost/SecurePoll/login.php\";
+		}else{
+			
+			$.ajax({
+     url: 'authenticate.php', //This is the current doc
+     type: \"POST\",
+     data: ({confirmed: true}),
+     success: function(data){
+         document.body.innerHTML =(data);
+     }
+});
+			//document.write(\"<h1>Successfully Logged in</h1><p>You will be redirected automatically.</p>\");
+			//document.location.href = \"http://localhost/SecurePoll/authenticate.php\";
+		}
+});
+}
+</script>
 </body>
-</html>");
-}else{
-	echo "please use login page";
-};
+</html>
+	");
+	
+	$mail = new PHPMailer();
+	$mail->isSMTP();
+	$mail->SMTPAuth = true;
+	$mail->SMTPSecure = 'ssl';
+	$mail->Host = 'smtp.gmail.com';
+	$mail->Port = '465';
+	$mail->isHTML();
+	$mail->Username = 'CSCI3300SecurePoll@gmail.com';
+	$mail->Password = 'SecurePollCSCI3300';
+	$mail->SetFrom('no-reply@SecurePoll.com');
+	$mail->Subject = 'Hello World';
+	$mail->Body = 'Your authentification password is '.$randomString ;
+	$mail->AddAddress($_SESSION['email']);
+	echo($randomString);
+	$mail->Send();
+	
+/*
+echo("
+<p>Enter authentication code sent to your email</p>
+<form method=\"post\" action=\"authenticate.php\" id=\"verify\">
+<p><input name=\"auth\" type=\"text\" placeholder=\"Authentication Number\" required></p>
+<p><button  name=\"VerifyButton\" type=\"submit\" onclick=\"action\">Verify</button></p></form>
+");
 	
 	
+*/
 	
-}catch(PDOException $e){
-    echo "Connection failed: " . $e->getMessage();
-    }
-	
-	
+}
 }
 ?>

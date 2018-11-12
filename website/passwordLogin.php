@@ -32,23 +32,19 @@ function attachEvent(obj,evt,fnc,useCapture){
 </script>
 <body>
   <div class="header">
-  	<h2>Login</h2>
+  	<h2>Login to Change Password</h2>
   </div>
-		<form id="loginForm" name="loginForm" action="authenticate.php" method="post">
-			<div class="input-group">Email<input  id="email" name="email" type="text" placeholder="Enter Email" required></div>
-			<div class="input-group"><label>Social Security Number</label><input  name="ssn" id="ssn" type="number" placeholder="Last 4 digits of your Social Security Number" required></div>
-			<div class="input-group"><label>Password</label><input  name="Password" id="Password" type="password" placeholder="Enter Password" required></div>
-			<div class="input-group"><button type="submit" class="btn" name="RegisterButton">Login</button></div>
-			
-	<div style="text-align:center">	
-  	<p>Change Password <a href="passwordChange.html">here</a></br>Not a member? <a href="register.php">Sign up</a>
-  	</p>
-	</div>
+		<form id="login" action="accountEdit.php" method="POST">
+			<div class="input-group"><label>First Name</label><input  name="fName" type="text" placeholder="Enter First Name" required></div>
+			<div class="input-group"><label>Last name</label><input  name="Lname" type="text" placeholder="Enter Last Name" required></div>
+			<div class="input-group"><label>Social Security Number</label><input  name="ssn" type="number" placeholder="Last 4 digits of your Social Security Number" required></div>
+			<div class="input-group"><label>Voter ID Number</label><input  name="VoterIDNum" type="text" placeholder="Enter Last Name" required></div>
+			<div class="input-group"><label>Password</label><input  name="password" type="password" placeholder="Password" required></div>
 
+  				<div class="input-group"><label>New Password</label><input  name="NewPassword" type="password" placeholder="Insert New Password" required></div>
+			<div class="input-group"><button type="Submit" class="btn" name="RegisterButton">Change Password</button></div>
 		</form>
 
-	
-<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+
 </body>
-<html>
 <html>

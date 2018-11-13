@@ -1,0 +1,151 @@
+<html>
+<head>
+  <title>Registration system PHP and MySQL</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+   <script src="js/sha.js"></script>
+</head>
+<script type="text/javascript">
+//timeout after 5 minutes
+attachEvent(window,'load',function(){
+  var idleSeconds =300;
+  var idleTimer;
+  function resetTimer(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(whenUserIdle,idleSeconds*1000);
+  }
+  attachEvent(document.body,'mousemove',resetTimer);
+  attachEvent(document.body,'keydown',resetTimer);
+  attachEvent(document.body,'click',resetTimer);	
+  resetTimer(); // Start the timer when the page loads
+});
+function whenUserIdle(){
+alert("You have been idle for 5 minutes, returning to home page.");
+document.location.href = "http://localhost/SecurePoll/index.php";
+}
+function attachEvent(obj,evt,fnc,useCapture){
+  if (obj.addEventListener){
+    obj.addEventListener(evt,fnc,!!useCapture);
+    return true;
+  } else if (obj.attachEvent){
+    return obj.attachEvent("on"+evt,fnc);
+  }
+}
+
+</script>
+<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+<body>
+  <div class="header">
+  	<h2>Change Password</h2>
+  </div>
+
+<div id="campaign">
+</div>
+<script type="text/javascript">
+
+var counterDisplay = 0;
+var verify=true;
+var dropdown="";
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY",
+    authDomain: "polldatabase-52fc4.firebaseapp.com",
+    databaseURL: "https://polldatabase-52fc4.firebaseio.com",
+    projectId: "polldatabase-52fc4",
+    storageBucket: "polldatabase-52fc4.appspot.com",
+    messagingSenderId: "346839933651"
+  };
+  firebase.initializeApp(config);
+//create firebase references
+  var Auth = firebase.auth(); 
+  var dbRef = firebase.database();
+  var CampaignData = dbRef.ref('CampaignData');
+  var CandidateData = dbRef.ref('CandidateData');
+  var auth = null;
+  var CampaignData2 ='';
+  TableSetter();
+  
+ function getDatabase(){
+CampaignData.orderByChild('State').equalTo('Georgia').on("value", function(snapshot) {
+    console.log(snapshot.val());
+    snapshot.forEach(function(childSnapshot) {
+	counterDisplay += 1;
+	
+		//returns parent
+		CampaignData2 = childSnapshot.ref.key;
+		alert(CampaignData2);
+		
+		//returns campaign state
+		var State = childSnapshot.val().State;
+		alert(State);
+		
+		//change to match logged in user
+		var user = childSnapshot.val().ACromer8618;
+		alert(user);
+		if(typeof user == 'undefined'){
+		
+		buildDropdown();
+		}
+    });
+getDatabaseNational();
+});
+
+
+}
+
+ function getDatabaseNational(){
+CampaignData.orderByChild('State').equalTo('National').on("value", function(snapshot) {
+    console.log(snapshot.val());
+    snapshot.forEach(function(childSnapshot) {
+	counterDisplay += 1;
+	
+		//returns parent
+		CampaignData2 = childSnapshot.ref.key;
+		alert(CampaignData2);
+		
+		//returns campaign state
+		var State = childSnapshot.val().State;
+		alert(State);
+		
+		//change to match logged in user
+		var user = childSnapshot.val().ACromer8618;
+		alert(user);
+		if(typeof user == 'undefined'){
+		dropdown = '';
+		buildDropdown();
+		}
+    });
+});
+
+}
+function TableSetter(){
+
+    //getDatabase(function() {
+            getDatabase(function() {
+        console.log('Completed');
+    });    
+    //});    
+}
+function buildDropdown(){
+
+dropdown += '<label>'+CampaignData2+'</label>';
+dropdown += "<select>";
+
+//in progress
+
+CandidateData.orderByChild('CampaignID').equalTo(CampaignData2).on("value", function(snapshot) {
+
+    snapshot.forEach(function(childSnapshot) {
+	var Fname = childSnapshot.val().FName;
+	var Lname = childSnapshot.val().LName;
+dropdown += '<option>'+Fname+' '+Lname+'</option>';
+});
+dropdown += '</select>';
+document.getElementById('campaign').innerHTML += dropdown;
+document.getElementById('campaign').innerHTML += '<br>';
+});
+
+}
+</script>
+
+</body>
+<html>

@@ -34,17 +34,14 @@ function attachEvent(obj,evt,fnc,useCapture){
 </script>
 <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
 <body>
-  <div class="header">
-  	<h2>Change Password</h2>
-  </div>
 
-<div id="campaign">
 </div>
 <script type="text/javascript">
-
+var counter=0;
 var counterDisplay = 0;
 var verify=true;
 var dropdown="";
+var tableString="<tr><th>Race</th><th>Candidate</th></tr>";
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBmfCylApkwRJlyzjH2e8KBP1SaFUuGMYY",
@@ -63,12 +60,13 @@ var dropdown="";
   var auth = null;
   var CampaignData2 ='';
   TableSetter();
-  
+
  function getDatabase(){
+ if(counter <2){
 CampaignData.orderByChild('State').equalTo('Georgia').on("value", function(snapshot) {
     console.log(snapshot.val());
     snapshot.forEach(function(childSnapshot) {
-	counterDisplay += 1;
+
 	
 		//returns parent
 		CampaignData2 = childSnapshot.ref.key;
@@ -84,19 +82,20 @@ CampaignData.orderByChild('State').equalTo('Georgia').on("value", function(snaps
 		if(typeof user == 'undefined'){
 		
 		buildDropdown();
+		buildTable(CampaignData2);
 		}
     });
 getDatabaseNational();
 });
-
-
+counter++;
+}
 }
 
  function getDatabaseNational(){
+  if(counter <2){
 CampaignData.orderByChild('State').equalTo('National').on("value", function(snapshot) {
     console.log(snapshot.val());
     snapshot.forEach(function(childSnapshot) {
-	counterDisplay += 1;
 	
 		//returns parent
 		CampaignData2 = childSnapshot.ref.key;
@@ -112,23 +111,26 @@ CampaignData.orderByChild('State').equalTo('National').on("value", function(snap
 		if(typeof user == 'undefined'){
 		dropdown = '';
 		buildDropdown();
+		buildTable(CampaignData2);
 		}
     });
 });
-
+}
+counter++;
 }
 function TableSetter(){
 
-    //getDatabase(function() {
-            getDatabase(function() {
+
+         getDatabase(function() {
         console.log('Completed');
     });    
-    //});    
+    
 }
 function buildDropdown(){
-
+		//adds a table row depending on number of counterDisplay
+		counterDisplay++;
 dropdown += '<label>'+CampaignData2+'</label>';
-dropdown += "<select>";
+dropdown += "<select id='race"+counterDisplay+"' onchange='changeValue(this.id)'><option>Select...</option>";
 
 //in progress
 
@@ -137,15 +139,53 @@ CandidateData.orderByChild('CampaignID').equalTo(CampaignData2).on("value", func
     snapshot.forEach(function(childSnapshot) {
 	var Fname = childSnapshot.val().FName;
 	var Lname = childSnapshot.val().LName;
-dropdown += '<option>'+Fname+' '+Lname+'</option>';
+dropdown += "<option value='"+Fname+' '+Lname+"'+>"+Fname+' '+Lname+'</option>';
 });
-dropdown += '</select>';
+dropdown += '</select><br>';
 document.getElementById('campaign').innerHTML += dropdown;
 document.getElementById('campaign').innerHTML += '<br>';
 });
 
 }
-</script>
 
+
+function buildTable(CampaignName){
+alert(tableString);
+	tableString+="<tr><td>"+CampaignName+"</td><td id='race"+counterDisplay+"candidate'>Select Candidate</td></tr>";
+	document.getElementById('final').innerHTML = tableString;
+
+}
+
+function changeValue(id){
+    var x = document.getElementById(id).value;
+    document.getElementById(id+"candidate").innerHTML = x;
+}
+</script>
+	
+<div class="split left">
+  <div class="centered">
+    <div class="ballotHeader">
+ 				 <h2>Select Your Candidates </h2>
+			</div>
+			
+			<form class="contentVote" id="login" action="voteCandidate.php" method="POST" id="myForm" >
+				<div class="input-groupVote">
+				
+<div id="campaign">
+</form>
+  </div>
+</div>
+</div>
+<div class="split right">
+  <div class="centered">
+	 <div class="ballotHeaderFinal">
+    <h2>Your Ballot</h2>
+	  </div>
+
+	  <table id="final"></table>
+	  	  <div class="ballotFooterFinal">
+	  <div class="input-group"><button type="Submit" name="RegisterButton" class="btn" onsubmit="return checkform();">Cast Ballot</button></div>
+	  </div>
+	  </div>
 </body>
 <html>

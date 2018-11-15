@@ -41,6 +41,7 @@ public class LoginActivityController extends AppCompatActivity {
                                                     UserData.child("State").getValue().toString(),
                                                     UserData.child("UserID").getValue().toString()
                                                 };
+
                             displayConfirm(UserInfo);
                         }
                         else {
@@ -84,6 +85,12 @@ public class LoginActivityController extends AppCompatActivity {
             e.printStackTrace();
         }
         return generatedPassword;
+    }
+
+    public void touchChangePass(View view) {
+        Intent intent = new Intent(this, ChangePasswordActivityController.class);
+        startActivity(intent);
+        finish();
     }
 }
 

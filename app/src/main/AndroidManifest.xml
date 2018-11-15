@@ -21,6 +21,8 @@
         <activity android:name=".Controller.TwoFacAuthActivityController"></activity>
         <activity android:name=".Controller.RaceListActivityController"></activity>
         <activity android:name=".Controller.CampaignItemActivityController"></activity>
+        <activity android:name=".Controller.ChangePasswordActivityController"></activity>
+        <activity android:name=".Controller.CampaignResultActivityController"></activity>
     </application>
 
 </manifest>

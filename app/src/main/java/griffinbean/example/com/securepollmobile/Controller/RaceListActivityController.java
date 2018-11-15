@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.*;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -33,9 +35,18 @@ public class RaceListActivityController extends AppCompatActivity {
                     for (DataSnapshot CampaignData : dataSnapshot.getChildren()) {
                         if ((CampaignData.child("State").getValue().toString().equals(UserInfo[2]) ||
                                 CampaignData.child("State").getValue().toString().equals("National")) && !CampaignData.hasChild(UserInfo[3])) {
-                            campList.add(CampaignData.child("State").getValue().toString() + " "
-                                    + CampaignData.child("Position").getValue().toString() + " "
-                                    + CampaignData.child("Type").getValue().toString());
+                            Date cDate = new Date();
+                            String fDate = new SimpleDateFormat("MM/dd/yyyy").format(cDate);
+                            if (fDate.compareTo(CampaignData.child("EndDate").getValue().toString()) > 0) {
+                                campList.add(CampaignData.child("State").getValue().toString() + " "
+                                        + CampaignData.child("Position").getValue().toString() + " "
+                                        + CampaignData.child("Type").getValue().toString() + "\n(View Results)");
+                            }
+                            else {
+                                campList.add(CampaignData.child("State").getValue().toString() + " "
+                                        + CampaignData.child("Position").getValue().toString() + " "
+                                        + CampaignData.child("Type").getValue().toString());
+                            }
                         }
                     }
                 }
@@ -60,11 +71,26 @@ public class RaceListActivityController extends AppCompatActivity {
                             for (DataSnapshot CampaignData : dataSnapshot.getChildren()) {
                                 if ((CampaignData.child("State").getValue().toString() + " "
                                         + CampaignData.child("Position").getValue().toString() + " "
-                                        + CampaignData.child("Type").getValue().toString()).equals(campList.get(position))) {
+                                        + CampaignData.child("Type").getValue().toString() + "\n(View Results)").equals(campList.get(position))){
                                     String [] CampaignInfo = {  CampaignData.child("State").getValue().toString(),
-                                                                CampaignData.child("Position").getValue().toString(),
-                                                                CampaignData.child("Type").getValue().toString(),
-                                                                CampaignData.child("CampID").getValue().toString()
+                                            CampaignData.child("Position").getValue().toString(),
+                                            CampaignData.child("Type").getValue().toString(),
+                                            CampaignData.child("CampID").getValue().toString()
+                                    };
+                                    Bundle bundle = new Bundle();
+                                    bundle.putStringArray("UserInfo", UserInfo);
+                                    bundle.putStringArray("CampaignInfo", CampaignInfo);
+                                    Intent intent = new Intent(RaceListActivityController.this, CampaignResultActivityController.class);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                                if ((CampaignData.child("State").getValue().toString() + " "
+                                        + CampaignData.child("Position").getValue().toString() + " "
+                                        + CampaignData.child("Type").getValue().toString()).equals(campList.get(position))) {
+                                    String[] CampaignInfo = {CampaignData.child("State").getValue().toString(),
+                                            CampaignData.child("Position").getValue().toString(),
+                                            CampaignData.child("Type").getValue().toString(),
+                                            CampaignData.child("CampID").getValue().toString()
                                     };
                                     Bundle bundle = new Bundle();
                                     bundle.putStringArray("UserInfo", UserInfo);
@@ -73,6 +99,7 @@ public class RaceListActivityController extends AppCompatActivity {
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     finish();
+
                                 }
                             }
                         }

@@ -52,6 +52,7 @@ public class User
         m.child("Password").setValue(u.getPassword());
         m.child("PassSalt").setValue(passSalt);
         m.child("SSNSalt").setValue(ssnSalt);
+        m.child("Status").setValue("a");
     }
 
     public String getUserID() {

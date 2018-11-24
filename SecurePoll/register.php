@@ -64,7 +64,7 @@ function attachEvent(obj,evt,fnc,useCapture){
 			<div class="input-group">Re-enter Email<input  name="verifyemail" type="text" placeholder="Verify Email" required></div>
 			<div class="input-group">Date of Birth <input  name="DoB" type="date" placeholder="Date of Birth" required></div>
 			<div class="input-group"><label>Last 4 Digits of Social Security Number</label><input  name="ssn" type="number" placeholder="Last 4 digits of SSN" required></div>
-			<div class="input-group"><label>VoterID Number</label><input  name="Enter VoterIDNum" type="number" placeholder="Voter ID Number" required></div>
+			<div class="input-group"><label>VoterID Number</label><input  name="VoterIDNum" type="number" placeholder="Voter ID Number" required></div>
 			<div class="input-group"><label>Password</label><input  name="Password" type="password" placeholder="Enter Password" required></div>
 			<div class="input-group"><label>State</label><select name="state" required>
 				<option value="Alabama">Alabama</option>

@@ -42,7 +42,7 @@ function attachEvent(obj,evt,fnc,useCapture){
 			<div class="input-group"><button type="submit" class="btn" name="RegisterButton">Login</button></div>
 			
 	<div style="text-align:center">	
-  	<p>Change Password <a href="passwordChange.html">here</a></br>Not a member? <a href="register.php">Sign up</a>
+  	<p>Change Password <a href="passwordChange.html">Here</a></br>Not a member? <a href="register.php">Sign up</a></br>Deactivate Account <a href="deactivate.html">Here</a></p>
   	</p>
 	</div>
 

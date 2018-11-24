@@ -157,12 +157,17 @@ for (key in json) {
 		verify = false;
 	}
   var userID = json[key].UserID;
+  var status = json[key].Status;
   var SSN = '$ssn';
   var SSNSalt = json[key].SSNSalt;
   var shaObj = new jsSHA(\"SHA-512\", \"TEXT\");
   shaObj.update(SSN + SSNSalt);
   var hash2 = shaObj.getHash(\"HEX\");
   
+  var isActive = true;
+  if(status == \"na\"){
+  	isActive = false;
+  }
 	//alert(hash);
 	//alert(json[key].Password);
 	if(hash2 != json[key].SSN){
@@ -175,7 +180,12 @@ for (key in json) {
 		if(verify == false){
 		alert(\"Incorrect Login Information\");
 		document.location.href = \"http://localhost/SecurePoll/login.php\";
-		}else{
+		}
+		else if(isActive == false){
+			alert(\"Account has been deactivated. Please contact an administrator for reinstatement.\");
+			document.location.href = \"http://localhost/SecurePoll/login.php\";
+		}
+		else{
 			
 			$.ajax({
      url: 'authenticate.php', //This is the current doc

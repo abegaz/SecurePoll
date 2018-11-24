@@ -95,7 +95,7 @@ try {
 	$hashed = hash('sha512', $salted);
 	$state = $_POST['state'];
 	$UserID = $Name[0].$lname.rand(1000,9999);
-	
+	$Status = "a";
 	echo("<script>");
 	echo("
   // Initialize Firebase
@@ -119,7 +119,7 @@ try {
 ");
 	
 echo("
-function saveUser(DoB, Email, FName, LName, PassSalt, Password, SSN, SSNSalt, State, UserID, VoterIDNum){
+function saveUser(DoB, Email, FName, LName, PassSalt, Password, SSN, SSNSalt, State, UserID, VoterIDNum, Status){
 
   var newMessageRef = firebase.database().ref().child('UserData').child(UserID).set({
     Dob: DoB,
@@ -133,10 +133,11 @@ function saveUser(DoB, Email, FName, LName, PassSalt, Password, SSN, SSNSalt, St
     State:State,
 	UserID:UserID,
     VoterIDNum:VoterIDNum,
+    Status:Status,
   });
 }
 ");
-echo("function save(){saveUser('$Dob', '$email', '$Name', '$lname', '$salt', '$hashed', '$SSNhashed', '$SSNsalt', '$state', '$UserID', '$VoterIDNum')}");
+echo("function save(){saveUser('$Dob', '$email', '$Name', '$lname', '$salt', '$hashed', '$SSNhashed', '$SSNsalt', '$state', '$UserID', '$VoterIDNum', '$Status')}");
 	echo("</script>");
     echo("<h2>You have successfully registered </h2>");
 echo("<p><a href=\"login.php\">Click here to login</a></p>");

@@ -23,6 +23,7 @@
         <activity android:name=".Controller.CampaignItemActivityController"></activity>
         <activity android:name=".Controller.ChangePasswordActivityController"></activity>
         <activity android:name=".Controller.CampaignResultActivityController"></activity>
+        <activity android:name=".Controller.DeactivateAccountActivityController"></activity>
     </application>
 
 </manifest>

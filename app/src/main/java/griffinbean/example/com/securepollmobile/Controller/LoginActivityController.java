@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
-
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,13 +34,17 @@ public class LoginActivityController extends AppCompatActivity {
                         EditText txtPassword = findViewById(R.id.txtPasswordLog);
                         String inputEmail = txtEmail.getText().toString();
                         String inputPass = getSecurePassword(txtPassword.getText().toString() + UserData.child("PassSalt").getValue().toString());
-                        if (inputEmail.equals(UserData.child("Email").getValue()) && (inputPass.equals(UserData.child("Password").getValue()))) {
+                        if ((inputEmail.equals(UserData.child("Email").getValue())) && (inputPass.equals(UserData.child("Password").getValue())) &&
+                                (UserData.child("Status").getValue().toString().equals("na"))){
+                            displayDeac();
+                        }
+                        if ((inputEmail.equals(UserData.child("Email").getValue())) && (inputPass.equals(UserData.child("Password").getValue())) &&
+                                (UserData.child("Status").getValue().toString().equals("a"))) {
                             String [] UserInfo = {  UserData.child("FName").getValue().toString(),
                                                     UserData.child("Email").getValue().toString(),
                                                     UserData.child("State").getValue().toString(),
                                                     UserData.child("UserID").getValue().toString()
                                                 };
-
                             displayConfirm(UserInfo);
                         }
                         else {
@@ -70,6 +73,10 @@ public class LoginActivityController extends AppCompatActivity {
         Toast.makeText(this, "Your Email or Password was incorrect, please try again", Toast.LENGTH_LONG).show();
     }
 
+    public void displayDeac() {
+        Toast.makeText(this, "Your Account has been Deactivated, please contact a SecurePoll administrator to reactivate it", Toast.LENGTH_LONG).show();
+    }
+
     public String getSecurePassword(String passwordToHash){
         String generatedPassword = null;
         try {
@@ -89,6 +96,12 @@ public class LoginActivityController extends AppCompatActivity {
 
     public void touchChangePass(View view) {
         Intent intent = new Intent(this, ChangePasswordActivityController.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void touchDeactivate(View view) {
+        Intent intent = new Intent(this, DeactivateAccountActivityController.class);
         startActivity(intent);
         finish();
     }

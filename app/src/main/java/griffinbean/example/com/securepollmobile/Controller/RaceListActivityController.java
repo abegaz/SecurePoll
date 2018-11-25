@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public class RaceListActivityController extends AppCompatActivity {
     String [] UserInfo;
     List<String> campList = new ArrayList<>();
@@ -24,9 +23,9 @@ public class RaceListActivityController extends AppCompatActivity {
         TextView welcome = findViewById(R.id.txtWelcome);
         Bundle bundle = getIntent().getExtras();
         UserInfo = bundle.getStringArray("UserInfo");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         welcome.setText("Hello, " + UserInfo[0]);
         ListView campaignList = findViewById(R.id.campaignList);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("CampaignData");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,7 +98,6 @@ public class RaceListActivityController extends AppCompatActivity {
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     finish();
-
                                 }
                             }
                         }
@@ -133,4 +131,3 @@ public class RaceListActivityController extends AppCompatActivity {
         finish();
     }
 }
-

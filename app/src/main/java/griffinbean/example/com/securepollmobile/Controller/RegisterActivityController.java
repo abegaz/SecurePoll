@@ -17,7 +17,6 @@ import java.util.Random;
 
 public class RegisterActivityController extends AppCompatActivity {
 
-
     static final String AlphaNum = "1234567890qwertyuiop";
     static SecureRandom randomSalt = new SecureRandom();
 
@@ -177,4 +176,3 @@ public class RegisterActivityController extends AppCompatActivity {
         }
     }
 }
-

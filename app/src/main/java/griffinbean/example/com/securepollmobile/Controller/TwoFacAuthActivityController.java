@@ -12,9 +12,11 @@ import griffinbean.example.com.securepollmobile.R;
 import java.util.Random;
 
 public class TwoFacAuthActivityController extends AppCompatActivity {
+
     Random rand = new Random();
     int genCode = rand.nextInt(899999)+100000;
     String [] UserInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

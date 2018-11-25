@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class RaceListActivityController extends AppCompatActivity {
+
     String [] UserInfo;
     List<String> campList = new ArrayList<>();
 
@@ -57,7 +58,6 @@ public class RaceListActivityController extends AppCompatActivity {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, campList );
         campaignList.setAdapter(arrayAdapter);
-
         campaignList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, final int position, long arg) {
@@ -119,6 +119,7 @@ public class RaceListActivityController extends AppCompatActivity {
     public void touchRefresh(View view) {
         onRestart();
     }
+
     @Override
     protected void onRestart(){
         super.onRestart();

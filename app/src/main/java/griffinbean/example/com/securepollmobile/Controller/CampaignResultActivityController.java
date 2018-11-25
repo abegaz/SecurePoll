@@ -11,15 +11,14 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
-
 import java.util.ArrayList;
 
 public class CampaignResultActivityController extends AppCompatActivity {
     String [] UserInfo;
     String [] CampaignInfo;
     PieChart piechart;
-    ArrayList<Entry> votes = new ArrayList<Entry>();
-    ArrayList<String> names = new ArrayList<String>();
+    ArrayList<Entry> votes = new ArrayList<>();
+    ArrayList<String> names = new ArrayList<>();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
     @Override

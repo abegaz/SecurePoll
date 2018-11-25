@@ -67,11 +67,6 @@ class GMailSender extends javax.mail.Authenticator {
             this.type = type;
         }
 
-        public ByteArrayDataSource(byte[] data) {
-            super();
-            this.data = data;
-        }
-
         public void setType(String type) {
             this.type = type;
         }

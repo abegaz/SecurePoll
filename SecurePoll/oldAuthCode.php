@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <?php
 session_start();
 use PHPMailer\PHPMailer\PHPMailer;
@@ -33,15 +33,11 @@ if(isset( $_POST['confirmed'])){
 	$mail->AddAddress($_SESSION['email']);
 	echo($randomString);
 	//$mail->Send();
-	
 	echo("
- <div class='header'>
-  	<h2>Email Verification</h2>
-  </div>
-  <form method='post' name='loginForm' action='authenticate.php' method='post'>
-  <div class='input-group'>Enter authentication code sent to your email<input  id='verify' name='auth' type='text' placeholder='Authentication Number' required></div>
-  <div class='input-group'><button name=\"VerifyButton\" type='submit' onclick=\"action\" class='btn' name='RegisterButton'>Login</button></div>
-
+<p>Enter authentication code sent to your email</p>
+<form method=\"post\" action=\"authenticate.php\" id=\"verify\">
+<p><input name=\"auth\" type=\"text\" placeholder=\"Authentication Number\" required></p>
+<p><button  name=\"VerifyButton\" type=\"submit\" onclick=\"action\">Verify</button></p></form>
 ");
 }else{
 	

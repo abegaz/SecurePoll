@@ -143,7 +143,7 @@ function buildDropdown(){
 		//adds a table row depending on number of counterDisplay
 		counterDisplay++;
 dropdown += '<label>'+CampaignData2+'</label>';
-dropdown += "<select id='race"+counterDisplay+"' onchange='changeValue(this.id)'><option>Select...</option>";
+dropdown += "<select id='race"+counterDisplay+"' onchange='changeValue(this.id)'><option>Select Candidate</option>";
 
 CandidateData.orderByChild('CampaignID').equalTo(CampaignData2).on("value", function(snapshot) {
 

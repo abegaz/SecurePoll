@@ -13,10 +13,16 @@ import java.util.Random;
 
 public class TwoFacAuthActivityController extends AppCompatActivity {
 
+    /**
+     *  Generates code for validation
+     */
     Random rand = new Random();
     int genCode = rand.nextInt(899999)+100000;
     String [] UserInfo;
 
+    /**
+     *  Pulls persistent user data, sends confirmation email as soon the activity is launched
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,9 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
         sendEmail(UserInfo[1]);
     }
 
+    /**
+     *  Validates code input is the one generated previously, on succes ful validation sends to Campaign list activity
+     */
     public void touchConfirm(View view) {
         EditText txtConfirm = findViewById(R.id.txtConfirm);
         String code = txtConfirm.getText().toString();
@@ -43,6 +52,10 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Sends email to the email address given to it, if unable to find the email address in the Firebase database,
+     *  throws error message and sends nothing
+     */
     public void sendEmail(String email) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("UserData").orderByChild("Email").equalTo(email);
@@ -56,6 +69,9 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
                             displayFail();
                         }
                         else {
+                            /**
+                             *  Separate thread opened in order to send the email
+                             */
                             Thread thread = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -82,6 +98,9 @@ public class TwoFacAuthActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Displayes error message
+     */
     public void displayFail() {
         Toast.makeText(this, "Email not found", Toast.LENGTH_LONG).show();
     }

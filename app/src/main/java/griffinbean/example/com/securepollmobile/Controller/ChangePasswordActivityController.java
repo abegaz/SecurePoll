@@ -25,6 +25,10 @@ public class ChangePasswordActivityController extends AppCompatActivity {
         setContentView(R.layout.changepasswordactivity);
     }
 
+    /**
+     *  Ensures the user has input their correct login credentials, validates the new password is input twice and
+     *  is properly formatted
+     */
     public void touchUpdate(View view) {
         final String PassSalt = AlphaNum + generateRandomSalt(14);
         EditText txtEmail = findViewById(R.id.txtUpdEmail);
@@ -54,6 +58,14 @@ public class ChangePasswordActivityController extends AppCompatActivity {
                                     finish();
                                 }
                             }
+                            else
+                            {
+                                Toast.makeText(ChangePasswordActivityController.this, "The new passwords do not match", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(ChangePasswordActivityController.this, "The username or password is incorrect", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -64,6 +76,9 @@ public class ChangePasswordActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  For password generation and confirmation
+     */
     public String getSecurePassword(String passwordToHash){
         String generatedPassword = null;
         try {
@@ -81,6 +96,9 @@ public class ChangePasswordActivityController extends AppCompatActivity {
         return generatedPassword;
     }
 
+    /**
+     *  For password generation
+     */
     String generateRandomSalt(int len) {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
@@ -88,6 +106,9 @@ public class ChangePasswordActivityController extends AppCompatActivity {
         return sb.toString();
     }
 
+    /**
+     *  Validates the password is the proper format
+     */
     private boolean validatePassword(String password) {
         if (password.matches("(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*")) {
             return true;

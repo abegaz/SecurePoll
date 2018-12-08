@@ -21,6 +21,9 @@ public class CampaignResultActivityController extends AppCompatActivity {
     ArrayList<String> names = new ArrayList<>();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
+    /**
+     *  Creates and populates a donut chart based on the persistent campaign data given to it
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,9 @@ public class CampaignResultActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Chart formatting and creation
+     */
     public void makeChart()
     {
         PieDataSet dataSet = new PieDataSet(votes, "");

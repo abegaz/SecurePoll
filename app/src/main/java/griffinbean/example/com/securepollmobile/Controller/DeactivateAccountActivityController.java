@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.google.firebase.database.*;
 import griffinbean.example.com.securepollmobile.R;
 import java.nio.charset.Charset;
@@ -21,6 +22,10 @@ public class DeactivateAccountActivityController extends AppCompatActivity {
         setContentView(R.layout.deactivateaccountactivity);
     }
 
+    /**
+     *  Confirms the user has input their proper login credentials, validates and throws error if they have not,
+     *  displays confirmation dialog box before the account is deactivated
+     */
     public void touchDeac(View view) {
         ConfirmDialogClass cdd = new ConfirmDialogClass(DeactivateAccountActivityController.this);
         cdd.show();
@@ -48,6 +53,9 @@ public class DeactivateAccountActivityController extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 }
+                                else {
+                                    Toast.makeText(DeactivateAccountActivityController.this, "The username or password is incorrect", Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
                     }
@@ -59,6 +67,9 @@ public class DeactivateAccountActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  For password generation and confirmation
+     */
     public String getSecurePassword(String passwordToHash){
         String generatedPassword = null;
         try {

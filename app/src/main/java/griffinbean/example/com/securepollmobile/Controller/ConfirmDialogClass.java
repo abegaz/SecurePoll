@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import griffinbean.example.com.securepollmobile.R;
 
+/**
+ *  Basic functionality for a simple yes/no dialog box. Box is dismissed when the user presses No
+ */
 public class ConfirmDialogClass extends Dialog implements android.view.View.OnClickListener
 {
     public Activity c;

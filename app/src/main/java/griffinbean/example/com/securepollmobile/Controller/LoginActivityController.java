@@ -20,6 +20,11 @@ public class LoginActivityController extends AppCompatActivity {
         setContentView(R.layout.loginactivity);
     }
 
+    /**
+     *  Checks Firebase Database for proper authentication based on the user-supplied email, displays error messages
+     *  if password or email is invalid, or if the account has been deactivated. On successful login, moves to
+     *  2-Factor authentication activity and persists user data
+     */
     public void touchLogin(View view) {
         EditText txtEmail = findViewById(R.id.txtEmailLog);
         String inputEmail = txtEmail.getText().toString();
@@ -59,6 +64,9 @@ public class LoginActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Displays confirmation and starts TwoFacAuthActivityController
+     */
     public void displayConfirm(String [] ud) {
         Bundle bundle = new Bundle();
         bundle.putStringArray("UserInfo", ud);
@@ -69,14 +77,23 @@ public class LoginActivityController extends AppCompatActivity {
         finish();
     }
 
+    /**
+     *  Displays an error if login information is incorrect
+     */
     public void displayFail() {
         Toast.makeText(this, "Your Email or Password was incorrect, please try again", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     *  Displays error if account has been deactivated
+     */
     public void displayDeac() {
         Toast.makeText(this, "Your Account has been Deactivated, please contact a SecurePoll administrator to reactivate it", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     *  For password validation and confirmation
+     */
     public String getSecurePassword(String passwordToHash){
         String generatedPassword = null;
         try {
@@ -94,16 +111,21 @@ public class LoginActivityController extends AppCompatActivity {
         return generatedPassword;
     }
 
+    /**
+     *  Send to Change Password activity
+     */
     public void touchChangePass(View view) {
         Intent intent = new Intent(this, ChangePasswordActivityController.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     *  Send to Deactivate Account activity
+     */
     public void touchDeactivate(View view) {
         Intent intent = new Intent(this, DeactivateAccountActivityController.class);
         startActivity(intent);
         finish();
     }
 }
-

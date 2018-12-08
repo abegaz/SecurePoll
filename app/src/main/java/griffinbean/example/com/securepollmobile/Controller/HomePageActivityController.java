@@ -20,6 +20,11 @@ public class HomePageActivityController extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /**
+         *  The block of code below sens a notification if the app finds a campaign that has ended, this
+         *  is not an ideal notification, as it won't send outside of the app, but it's what we could implement in
+         *  time allowed
+         */
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("CampaignData");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -64,15 +69,22 @@ public class HomePageActivityController extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepageactivity);
     }
 
+    /**
+     *  Sends to the login activity
+     */
     public void touchLogin(View view) {
         Intent intent = new Intent(this, LoginActivityController.class);
         startActivity(intent);
     }
 
+    /**
+     *  Send to the register activity
+     */
     public void touchRegister(View view) {
         Intent intent = new Intent(this, RegisterActivityController.class);
         startActivity(intent);

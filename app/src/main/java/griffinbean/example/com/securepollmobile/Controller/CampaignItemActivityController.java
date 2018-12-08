@@ -16,6 +16,9 @@ public class CampaignItemActivityController extends AppCompatActivity {
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     int votesNum;
 
+    /**
+     *  Generates and populates a radio button group based on the persistent campaign data given
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,11 @@ public class CampaignItemActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Validates a candidate has been selected, prompts the user to confirm with a dialog box before
+     *  submitting the vote to the database. Increments the vote tally of the candidate being voted for. User's
+     *  id and email are added to the campaign's data so they cannot vote in it again
+     */
     public void touchConfirm(View view) {
         final RadioGroup candidateGroup = findViewById(R.id.candidateGroup);
         int selectedRB = candidateGroup.getCheckedRadioButtonId();

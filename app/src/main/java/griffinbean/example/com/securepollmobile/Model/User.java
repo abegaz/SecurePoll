@@ -32,6 +32,9 @@ public class User
         this.password = password;
     }
 
+    /**
+     *  Retrives a Firebase reference for a specific User under the UserData child
+     */
     public DatabaseReference getFirebaseRefforUser(String i)
     {
         DatabaseReference mDatabase;
@@ -39,6 +42,10 @@ public class User
         return mDatabase;
     }
 
+    /**
+     *  Creates a new child under the reference passed to it, adds relevant values based on a User object and
+     *  other strings not assigned by User input
+     */
     public void insertUsertoFirebase(DatabaseReference m, User u, String passSalt, String ssnSalt)
     {
         m.child("UserID").setValue(u.getUserID());

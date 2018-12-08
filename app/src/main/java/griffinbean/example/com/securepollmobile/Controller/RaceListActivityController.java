@@ -27,6 +27,10 @@ public class RaceListActivityController extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         welcome.setText("Hello, " + UserInfo[0]);
         ListView campaignList = findViewById(R.id.campaignList);
+        /**
+         *  Populates the an ArrayList and subsequently the ListView with campaigns from the State given in the
+         *  persistent user data
+         */
         Query query = reference.child("CampaignData");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -58,6 +62,10 @@ public class RaceListActivityController extends AppCompatActivity {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, campList );
         campaignList.setAdapter(arrayAdapter);
+        /**
+         *  Checks the item in the ListView that was clicked to know whether to send the user to a voting
+         *  view or a results view, either one sends persistent data about the campaign selected
+         */
         campaignList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, final int position, long arg) {
@@ -110,12 +118,19 @@ public class RaceListActivityController extends AppCompatActivity {
         });
     }
 
+    /**
+     *  Sends the user back to the Home page
+     */
     public void touchLogOut(View view) {
         Intent intent = new Intent(this, HomePageActivityController.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     *  Refreshes the activity since it can have difficulty retrieving the campaigns for Firebase
+     *  based on the internet connection (may take several attempts)
+     */
     public void touchRefresh(View view) {
         onRestart();
     }

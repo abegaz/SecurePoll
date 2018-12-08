@@ -26,6 +26,10 @@ public class RegisterActivityController extends AppCompatActivity {
         setContentView(R.layout.registeractivity);
     }
 
+    /**
+     *  Method for touching the Register button, performs input validation, creates a User object, sends it to the User
+     *  model for insertion into the Firebase database
+     */
     public void touchRegister(View view) {
         Random rand = new Random();
         boolean DoBTrue = false,
@@ -51,6 +55,9 @@ public class RegisterActivityController extends AppCompatActivity {
         String userID = userIDP1 + userIDP2 + userIDP3;
         int UserYear, year;
 
+        /**
+         *  Date of Birth validation
+         */
         if (!txtDob.getText().toString().equals("")) {
             if (txtDob.getText().toString().matches("([0-9]+){2}(/|-)([0-9]+){2}(/|-)([0-9]+){4}")) {
                 if (Integer.parseInt(txtDob.getText().toString().substring(0, 2)) > 12) {
@@ -83,29 +90,39 @@ public class RegisterActivityController extends AppCompatActivity {
             DoBTrue = false;
             Toast.makeText(this, "Please enter your Date of Birth", Toast.LENGTH_LONG).show();
         }
-
+        /**
+         *  SSN validation
+         */
         if (txtSSN.getText().toString().matches("([0-9]){4}")) {
                 SSNTrue = true;
         } else {
             SSNTrue = false;
             Toast.makeText(this, "Please ensure you entered 4 digits for your SSN", Toast.LENGTH_LONG).show();
         }
-
+        /**
+         *  Voter ID validation
+         */
         if (txtVoterID.getText().toString().matches("([0-9]){10}")) {
             VIDTrue = true;
         } else {
             VIDTrue = false;
             Toast.makeText(this, "Your VoterID number should be 10 digits", Toast.LENGTH_LONG).show();
         }
-
+        /**
+         *  Email validation (sends email and confirmation email to validate email method)
+         */
         if (validateEmail(txtEmail.getText().toString(), txtConfirmEmail.getText().toString())) {
             EmailTrue = true;
         }
-
+        /**
+         *  password validation (sends password to validatepassword method)
+         */
         if (validatePassword(txtPassword.getText().toString())) {
             PassTrue = true;
         }
-
+        /**
+         *  Creates a User object if all the above alidation conditions are passed
+         */
         if (DoBTrue && SSNTrue && VIDTrue && EmailTrue && PassTrue && !txtFname.getText().toString().equals("")
                 && !txtLname.getText().toString().equals("") && !txtState.getText().toString().equals("")) {
             User newUser = new User();
@@ -128,6 +145,9 @@ public class RegisterActivityController extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Hashes the password with the appended salt in SHA-512
+     */
     private String getSecurePassword(String passwordToHash) {
         String generatedPassword = null;
         try {
@@ -144,6 +164,9 @@ public class RegisterActivityController extends AppCompatActivity {
         return generatedPassword;
     }
 
+    /**
+     *  For generating random salt for passwords
+     */
     String generateRandomSalt(int len) {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
@@ -151,6 +174,9 @@ public class RegisterActivityController extends AppCompatActivity {
         return sb.toString();
     }
 
+    /**
+     *  Email validation
+     */
     private boolean validateEmail(String email, String cEmail) {
         if (email.equals(cEmail)) {
             if (email.matches("([a-zA-Z0-9]+)@([a-zA-Z0-9]+)\\.([a-z]+)")) {
@@ -165,6 +191,9 @@ public class RegisterActivityController extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Password validation
+     */
     private boolean validatePassword(String password) {
         if (password.matches("(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*")) {
             return true;
